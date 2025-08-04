@@ -1,0 +1,6 @@
+# Windows KMS 激活工具依赖
+# 本程序使用Python标准库，无需额外依赖
+# 只需Python 3.6或更高版本
+
+# 如果需要打包为exe，可以使用pyinstaller
+# pyinstaller>=4.0
