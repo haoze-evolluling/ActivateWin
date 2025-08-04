@@ -16,12 +16,12 @@ VSVersionInfo(
       StringTable(
         u'040904B0',
         [StringStruct(u'CompanyName', u'KMS Activator Team'),
-        StringStruct(u'FileDescription', u'Windows KMS激活工具'),
+        StringStruct(u'FileDescription', u'ActivateWin'),
         StringStruct(u'FileVersion', u'1.0.0.0'),
-        StringStruct(u'InternalName', u'Windows KMS Activator'),
+        StringStruct(u'InternalName', u'ActivateWin'),
         StringStruct(u'LegalCopyright', u'Copyright (c) 2024 KMS Activator Team'),
-        StringStruct(u'OriginalFilename', u'Windows_KMS_Activator.exe'),
-        StringStruct(u'ProductName', u'Windows KMS激活工具'),
+        StringStruct(u'OriginalFilename', u'ActivateWin.exe'),
+        StringStruct(u'ProductName', u'ActivateWin'),
         StringStruct(u'ProductVersion', u'1.0.0.0')])
       ]), 
     VarFileInfo([VarStruct(u'Translation', [1033, 1200])])
