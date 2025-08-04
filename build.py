@@ -56,6 +56,8 @@ def build_exe():
         "--add-data=icon1.png;.",
         "--add-data=README.md;.",
         "--add-data=方法指导.md;.",
+        "--add-data=ui.py;.",
+        "--add-data=backend.py;.",
         "--clean",
         "--noconfirm",
         "--version-file=version_info.txt",

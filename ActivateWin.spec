@@ -5,7 +5,7 @@ a = Analysis(
     ['kms_activator.py'],
     pathex=[],
     binaries=[],
-    datas=[('icon1.ico', '.'), ('icon1.png', '.'), ('README.md', '.'), ('方法指导.md', '.')],
+    datas=[('icon1.ico', '.'), ('icon1.png', '.'), ('README.md', '.'), ('方法指导.md', '.'), ('ui.py', '.'), ('backend.py', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
