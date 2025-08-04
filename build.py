@@ -48,7 +48,7 @@ def build_exe():
     # PyInstaller命令参数
     pyinstaller_cmd = [
         "pyinstaller",
-        "--name=Windows_KMS_Activator",
+        "--name=ActivateWin",
         "--onefile",
         "--windowed",
         "--icon=icon1.ico",
@@ -70,7 +70,7 @@ def build_exe():
     
     if result.returncode == 0:
         print("构建成功!")
-        print(f"exe文件位置: {os.path.join('dist', 'Windows_KMS_Activator.exe')}")
+        print(f"exe文件位置: {os.path.join('dist', 'ActivateWin.exe')}")
         return True
     else:
         print("构建失败!")
@@ -98,12 +98,12 @@ VSVersionInfo(
       StringTable(
         u'040904B0',
         [StringStruct(u'CompanyName', u'KMS Activator Team'),
-        StringStruct(u'FileDescription', u'Windows KMS激活工具'),
+        StringStruct(u'FileDescription', u'ActivateWin'),
         StringStruct(u'FileVersion', u'1.0.0.0'),
-        StringStruct(u'InternalName', u'Windows KMS Activator'),
+        StringStruct(u'InternalName', u'ActivateWin'),
         StringStruct(u'LegalCopyright', u'Copyright (c) 2024 KMS Activator Team'),
-        StringStruct(u'OriginalFilename', u'Windows_KMS_Activator.exe'),
-        StringStruct(u'ProductName', u'Windows KMS激活工具'),
+        StringStruct(u'OriginalFilename', u'ActivateWin.exe'),
+        StringStruct(u'ProductName', u'ActivateWin'),
         StringStruct(u'ProductVersion', u'1.0.0.0')])
       ]), 
     VarFileInfo([VarStruct(u'Translation', [1033, 1200])])
@@ -144,9 +144,9 @@ def main():
         create_zip = input("是否创建zip压缩包? (y/n): ").lower().strip()
         if create_zip == 'y':
             import zipfile
-            zip_filename = f"Windows_KMS_Activator_v1.0.0.zip"
+            zip_filename = f"ActivateWin_v1.0.0.zip"
             with zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED) as zipf:
-                zipf.write("dist/Windows_KMS_Activator.exe", "Windows_KMS_Activator.exe")
+                zipf.write("dist/ActivateWin.exe", "ActivateWin.exe")
                 zipf.write("README.md", "README.md")
                 zipf.write("方法指导.md", "方法指导.md")
             print(f"已创建压缩包: {zip_filename}")

@@ -1,6 +1,6 @@
-# Windows KMS 激活工具
+# ActivateWin
 
-一款功能强大、界面美观的Windows KMS激活工具，支持自动系统识别、自动提权管理员模式，提供一键激活体验。
+一款功能强大、界面美观的Windows激活工具，支持自动系统识别、自动提权管理员模式，提供一键激活体验。
 
 ## 🚀 功能特性
 
@@ -48,7 +48,7 @@ python kms_activator.py
 #### 自动打包（推荐）
 1. 双击运行 `一键打包.bat`
 2. 等待自动完成打包
-3. 生成的exe位于：`dist/Windows_KMS_Activator.exe`
+3. 生成的exe位于：`dist/ActivateWin.exe`
 
 #### 手动打包
 1. 安装打包依赖：
@@ -59,7 +59,7 @@ python kms_activator.py
    ```bash
    python build.py
    ```
-3. 生成的exe位于：`dist/Windows_KMS_Activator.exe`
+3. 生成的exe位于：`dist/ActivateWin.exe`
 
 ## 🚀 使用步骤
 
@@ -119,7 +119,7 @@ python kms_activator.py
 ```
 ActivateWin/
 ├── kms_activator.py      # 主程序文件（自动提权版本）
-├── build_exe.py          # exe打包脚本
+├── build.py              # exe打包脚本
 ├── run_activator.bat     # 管理员启动批处理
 ├── requirements.txt      # 依赖列表
 ├── README.md            # 本文档

@@ -64,14 +64,14 @@ def run_as_admin():
 class KMSActivator:
     def __init__(self):
         self.root = tk.Tk()
-        self.root.title("Windows KMS 激活工具")
+        self.root.title("ActivateWin")
         self.root.geometry("700x600")
         self.root.configure(bg="#ffffff")
         self.root.resizable(False, False)
         
         # 设置窗口图标（如果有的话）
         try:
-            self.root.iconbitmap(default="icon.ico")
+            self.root.iconbitmap(default="icon1.ico")
         except:
             pass
         
@@ -174,7 +174,7 @@ class KMSActivator:
         title_frame = tk.Frame(main_frame, bg="#ffffff")
         title_frame.pack(fill="x", pady=(0, 30))
         
-        title_label = tk.Label(title_frame, text="Windows KMS 激活工具", 
+        title_label = tk.Label(title_frame, text="ActivateWin", 
                              font=("Microsoft YaHei", 24, "bold"), 
                              bg="#ffffff", fg="#2c3e50")
         title_label.pack()

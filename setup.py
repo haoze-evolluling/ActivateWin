@@ -10,11 +10,11 @@ with open("README.md", "r", encoding="utf-8") as fh:
 version = "1.0.0"
 
 setup(
-    name="windows-kms-activator",
+    name="ActivateWin",
     version=version,
     author="KMS Activator Team",
     author_email="support@kms-activator.com",
-    description="Windows KMS激活工具 - 一键激活Windows系统",
+    description="ActivateWin - 一键激活您的Windows系统",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/kms-activator/windows-kms-activator",
@@ -40,10 +40,10 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "kms-activator=kms_activator:main",
+            "activatewin=kms_activator:main",
         ],
         "gui_scripts": [
-            "kms-activator-gui=kms_activator:main",
+            "activatewin-gui=kms_activator:main",
         ],
     },
     include_package_data=True,
