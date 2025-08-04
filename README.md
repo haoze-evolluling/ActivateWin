@@ -45,8 +45,21 @@ python kms_activator.py
 双击运行 `run_activator.bat`，程序会自动申请管理员权限
 
 ### 方法3：使用打包后的exe（最方便）
-1. 运行 `python build_exe.py` 生成exe文件
-2. 双击生成的 `kms_activator.exe` 即可运行
+#### 自动打包（推荐）
+1. 双击运行 `一键打包.bat`
+2. 等待自动完成打包
+3. 生成的exe位于：`dist/Windows_KMS_Activator.exe`
+
+#### 手动打包
+1. 安装打包依赖：
+   ```bash
+   pip install -r requirements.txt
+   ```
+2. 运行打包脚本：
+   ```bash
+   python build.py
+   ```
+3. 生成的exe位于：`dist/Windows_KMS_Activator.exe`
 
 ## 🚀 使用步骤
 
