@@ -35,7 +35,15 @@ class KMSActivatorUI:
         self.backend = backend
         self.setup_styles()
         self.create_gui()
+        self.setup_icon()
         
+    def setup_icon(self):
+        """设置窗口图标"""
+        try:
+            self.parent.iconbitmap(default="icon1.ico")
+        except Exception as e:
+            print(f"无法设置窗口图标: {e}")
+    
     def setup_styles(self):
         """设置界面样式"""
         style = ttk.Style()
