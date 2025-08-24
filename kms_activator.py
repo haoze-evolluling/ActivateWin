@@ -243,10 +243,10 @@ class KMSActivator:
         try:
             # 使用增强的ping命令测试服务器可用性
             result = subprocess.run(
-                ["ping", "-n", "3", "-w", "3000", server], 
+                ["ping", "-n", "2", "-w", "1000", server], 
                 capture_output=True, 
                 text=True, 
-                timeout=10
+                timeout=3
             )
             
             self.server_status.config(state="normal")
@@ -289,7 +289,7 @@ class KMSActivator:
         except subprocess.TimeoutExpired:
             self.server_status.config(state="normal")
             self.server_status.delete(1.0, tk.END)
-            self.server_status.insert(1.0, f"✗ 服务器 {server} 测试超时（超过10秒）")
+            self.server_status.insert(1.0, f"✗ 服务器 {server} 测试超时（超过3秒）")
             self.server_status.config(bg="#FFB6C1")
             self.server_status.config(state="disabled")
             
