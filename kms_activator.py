@@ -404,14 +404,22 @@ class KMSActivator:
 if __name__ == "__main__":
     # 检查管理员权限
     try:
-        # 尝试以管理员身份运行
         import ctypes
         if not ctypes.windll.shell32.IsUserAnAdmin():
+            # 以管理员身份重新运行程序，然后立即退出当前实例
             ctypes.windll.shell32.ShellExecuteW(
                 None, "runas", sys.executable, __file__, None, 1)
-            sys.exit()
-    except:
-        pass
+            sys.exit(0)
+    except SystemExit:
+        # 正常退出
+        sys.exit(0)
+    except Exception as e:
+        # 如果权限提升失败，显示错误信息并继续运行（可能无法执行激活命令）
+        root = tk.Tk()
+        root.withdraw()  # 隐藏主窗口
+        messagebox.showwarning("警告", f"无法获取管理员权限，某些功能可能受限:\n{str(e)}")
+        root.destroy()
         
+    # 只有具有管理员权限的实例才会继续执行这里
     app = KMSActivator()
     app.run()
