@@ -228,7 +228,7 @@ class KMSActivator:
             self.update_config_display()
             
     def test_server_connection(self):
-        """测试KMS服务器连接"""
+        """测试KMS服务器连接可用性"""
         server = self.custom_server.get() or self.selected_server.get()
         if not server:
             messagebox.showwarning("警告", "请先选择或输入KMS服务器地址")
@@ -241,34 +241,70 @@ class KMSActivator:
         self.root.update()
         
         try:
-            # 使用ping测试服务器
-            result = subprocess.run(["ping", "-n", "1", server], 
-                                  capture_output=True, text=True, timeout=5)
+            # 使用增强的ping命令测试服务器可用性
+            result = subprocess.run(
+                ["ping", "-n", "3", "-w", "3000", server], 
+                capture_output=True, 
+                text=True, 
+                timeout=10
+            )
             
             self.server_status.config(state="normal")
             self.server_status.delete(1.0, tk.END)
             
             if result.returncode == 0:
-                self.server_status.insert(1.0, f"✓ 服务器 {server} 连接正常")
-                self.server_status.config(bg="lightgreen")
+                # 解析ping结果获取响应时间
+                output_lines = result.stdout.split('\n')
+                response_times = []
+                for line in output_lines:
+                    if '时间=' in line or 'time=' in line:
+                        try:
+                            time_part = line.split('=')[-1].split('ms')[0].strip()
+                            response_times.append(int(time_part))
+                        except:
+                            pass
+                
+                if response_times:
+                    avg_time = sum(response_times) // len(response_times)
+                    self.server_status.insert(1.0, f"✓ 服务器 {server} 连接正常\n平均响应时间: {avg_time}ms")
+                else:
+                    self.server_status.insert(1.0, f"✓ 服务器 {server} 连接正常")
+                    
+                self.server_status.config(bg="#90EE90")  # 浅绿色
             else:
-                self.server_status.insert(1.0, f"✗ 服务器 {server} 连接失败")
-                self.server_status.config(bg="lightcoral")
+                # 分析连接失败原因
+                error_msg = "连接失败"
+                if "找不到主机" in result.stderr or "无法解析" in result.stderr:
+                    error_msg = "DNS解析失败"
+                elif "请求超时" in result.stdout or "Request timed out" in result.stdout:
+                    error_msg = "请求超时"
+                elif "目标主机无法访问" in result.stderr:
+                    error_msg = "目标主机无法访问"
+                
+                self.server_status.insert(1.0, f"✗ 服务器 {server} {error_msg}")
+                self.server_status.config(bg="#FFB6C1")  # 浅红色
                 
             self.server_status.config(state="disabled")
             
         except subprocess.TimeoutExpired:
             self.server_status.config(state="normal")
             self.server_status.delete(1.0, tk.END)
-            self.server_status.insert(1.0, f"✗ 服务器 {server} 连接超时")
-            self.server_status.config(bg="lightcoral")
+            self.server_status.insert(1.0, f"✗ 服务器 {server} 测试超时（超过10秒）")
+            self.server_status.config(bg="#FFB6C1")
+            self.server_status.config(state="disabled")
+            
+        except FileNotFoundError:
+            self.server_status.config(state="normal")
+            self.server_status.delete(1.0, tk.END)
+            self.server_status.insert(1.0, f"✗ 系统缺少ping命令工具")
+            self.server_status.config(bg="#FFB6C1")
             self.server_status.config(state="disabled")
             
         except Exception as e:
             self.server_status.config(state="normal")
             self.server_status.delete(1.0, tk.END)
             self.server_status.insert(1.0, f"✗ 测试失败: {str(e)}")
-            self.server_status.config(bg="lightcoral")
+            self.server_status.config(bg="#FFB6C1")
             self.server_status.config(state="disabled")
             
     def update_config_display(self):
