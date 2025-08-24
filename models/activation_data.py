@@ -38,24 +38,35 @@ class ActivationData:
         """加载Windows版本和密钥数据"""
         return {
             "Windows 11": {
-                "专业版": "VK7JG-NPHTM-C97JM-9MPGT-3V66T",
-                "企业版": "XGVPP-NMH47-7TTHJ-W3FW7-8HV2C",
+                "专业版": "W269N-WFGWX-YVC9B-4J6C9-T83GX",
+                "专业工作站版": "NRG8B-VKK3Q-CXVCJ-9G2XF-6Q84J",
+                "专业教育版": "6TP4R-GNPTD-KYYHQ-7B7DP-J447Y",
                 "教育版": "NW6C2-QMPVW-D7KKK-3GKT6-VCFB2",
-                "专业工作站版": "NRG8B-VKK3Q-CXVCJ-9G2XF-6Q84J"
+                "企业版": "NPPR9-FWDCX-D2C8J-H872K-2YT43",
+                "企业版 G": "YYVX9-NTFWV-6MDM3-9PT4T-4M68B",
+                "企业版 LTSC 2024": "M7XTQ-FN8P6-TTKYV-9D4CC-J462D"
             },
             "Windows 10": {
                 "专业版": "W269N-WFGWX-YVC9B-4J6C9-T83GX",
-                "企业版": "NPPR9-FWDCX-D2C8J-H872K-2YT43",
+                "专业工作站版": "NRG8B-VKK3Q-CXVCJ-9G2XF-6Q84J",
+                "专业教育版": "6TP4R-GNPTD-KYYHQ-7B7DP-J447Y",
                 "教育版": "NW6C2-QMPVW-D7KKK-3GKT6-VCFB2",
-                "专业工作站版": "NRG8B-VKK3Q-CXVCJ-9G2XF-6Q84J"
+                "企业版": "NPPR9-FWDCX-D2C8J-H872K-2YT43",
+                "企业版 G": "YYVX9-NTFWV-6MDM3-9PT4T-4M68B",
+                "企业版 LTSC 2019": "M7XTQ-FN8P6-TTKYV-9D4CC-J462D",
+                "企业版 LTSB 2016": "DCPHK-NFMTC-H88MJ-PFHPY-QJ4BJ"
             },
-            "Windows Server 2022": {
-                "标准版": "VDYBN-27WPP-V4HQT-9VMD4-VMK7H",
-                "数据中心版": "WX4NM-KYWYW-QJJR4-XV3QB-6VM33"
+            "Windows 8.1": {
+                "专业版": "GCRJD-8NW9H-F2CDX-CCM8D-9D6T9",
+                "企业版": "MHF9N-XY6XB-WVXMC-BTDCT-MKKG7"
             },
-            "Windows Server 2019": {
-                "标准版": "N69G4-B89J2-4G8F4-WWYCC-J464C",
-                "数据中心版": "WMDGN-G9PQG-XVVXX-R3X43-63DFG"
+            "Windows 8": {
+                "专业版": "NG4HW-VH26C-733KW-K6F98-J8CK4",
+                "企业版": "32JNW-9KQ84-P47T8-D8GGY-CWCK7"
+            },
+            "Windows 7": {
+                "专业版": "FJ82H-XT6CR-J8D7P-XQJJ2-GPDD4",
+                "企业版": "33PXH-7Y6KF-2VJC9-XBBR8-HVTHH"
             }
         }
     
