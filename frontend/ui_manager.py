@@ -46,7 +46,7 @@ class UIManager:
         """创建主窗口"""
         self.root = tk.Tk()
         self.root.title("Windows KMS激活管理器 - 企业版")
-        self.root.geometry("800x600")
+        self.root.geometry("800x640")
         self.root.resizable(False, False)
         
         # 设置窗口图标
