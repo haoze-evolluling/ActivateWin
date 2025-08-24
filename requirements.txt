@@ -1,8 +1,0 @@
-# Windows KMS 激活工具依赖
-# 本程序使用Python标准库，无需额外依赖
-# 只需Python 3.6或更高版本
-
-# 开发依赖（可选）
-pyinstaller>=4.0  # 用于打包exe
-setuptools>=40.0   # 用于创建安装包
-wheel>=0.34        # 用于创建wheel包
