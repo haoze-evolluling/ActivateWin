@@ -152,3 +152,53 @@ ActivateWin/
 ---
 
 **基于微软官方授权的企业级KMS激活管理工具**
+
+## 图标设置
+
+程序支持自定义图标显示，包含以下特性：
+
+### 图标文件
+- **主图标**：`icon.ico` - Windows标准图标格式
+- **备用图标**：`icon.png` - PNG格式备用图标
+
+### 图标功能
+- ✅ 窗口标题栏图标
+- ✅ Windows任务栏图标
+- ✅ 打包后的可执行文件图标
+- ✅ 自动路径检测（脚本/打包后均可使用）
+
+### 图标加载逻辑
+1. 优先加载 `.ico` 格式的图标文件
+2. 如果 `.ico` 文件不存在，自动尝试加载 `.png` 文件
+3. 支持相对路径和绝对路径
+4. 兼容脚本运行和PyInstaller打包后的环境
+
+## 打包说明
+
+### 依赖安装
+```bash
+pip install -r requirements.txt
+pip install pyinstaller
+```
+
+### 打包方法
+
+#### 方法一：使用打包脚本
+```bash
+python build.py
+```
+
+#### 方法二：手动打包
+```bash
+pyinstaller --onefile --windowed --icon=icon.ico --add-data="icon.ico;." --add-data="icon.png;." --add-data="kmsserver.md;." --add-data="kmskey.md;." --name=KMSActivator kms_activator.py
+```
+
+#### 方法三：使用spec文件
+```bash
+pyinstaller build.spec
+```
+
+### 打包后文件
+打包完成后，可执行文件位于：
+- `dist/KMSActivator.exe` - 单文件版本
+- `dist/KMSActivator/` - 多文件版本（使用spec文件时）

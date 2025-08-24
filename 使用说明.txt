@@ -1,0 +1,82 @@
+Windows KMS激活管理器 - 使用说明
+========================================
+
+📋 程序概述
+---------
+这是一个基于Python开发的Windows KMS激活管理器，提供图形化界面，支持Windows和Office产品的激活管理。
+
+🎯 功能特性
+---------
+✅ Windows系统版本激活管理
+✅ Office产品激活支持
+✅ KMS服务器配置管理
+✅ 图形化用户界面
+✅ 自定义窗口图标
+✅ 一键打包为可执行文件
+
+📁 文件结构
+---------
+├── kms_activator.py          # 主程序文件
+├── icon.ico                # 程序图标 (ICO格式)
+├── icon.png                # 程序图标 (PNG格式备用)
+├── run.bat                 # Windows启动脚本
+├── build.py               # 打包脚本
+├── build.spec             # PyInstaller配置文件
+├── test_icon.py           # 图标测试脚本
+├── requirements.txt       # Python依赖列表
+├── kmsserver.md           # KMS服务器列表
+├── kmskey.md             # KMS密钥列表
+└── README.md              # 项目说明文档
+
+🚀 使用方法
+---------
+
+### 方法1：直接运行Python脚本
+1. 安装Python 3.7+
+2. 安装依赖：
+   ```
+   pip install -r requirements.txt
+   ```
+3. 运行程序：
+   ```
+   python kms_activator.py
+   ```
+
+### 方法2：使用启动脚本（推荐）
+双击运行 `run.bat` 文件，自动以管理员权限启动程序。
+
+### 方法3：运行打包版本
+1. 进入 `dist` 文件夹
+2. 双击 `KMSActivator.exe` 运行
+
+🔧 打包说明
+---------
+
+### 使用打包脚本
+运行以下命令创建可执行文件：
+```
+python build.py
+```
+
+### 手动打包
+```
+pyinstaller --onefile --windowed --icon=icon.ico --name=KMSActivator kms_activator.py
+```
+
+### 使用spec文件
+```
+pyinstaller build.spec
+```
+
+打包完成后，可执行文件位于 `dist/KMSActivator.exe`
+
+⚠️ 注意事项
+---------
+- 程序需要管理员权限运行
+- 确保Windows Defender或其他杀毒软件不拦截
+- 使用前请关闭其他激活工具
+- 建议在纯净系统环境下使用
+
+📞 技术支持
+---------
+如有问题，请查看README.md文件或联系技术支持。

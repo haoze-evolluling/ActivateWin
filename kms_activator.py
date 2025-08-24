@@ -21,12 +21,12 @@ class KMSActivator:
         self.root.geometry("800x600")
         self.root.resizable(False, False)
         
-        # 设置窗口图标
-        try:
-            self.root.iconbitmap(default="icon.ico")
-        except:
-            pass
-            
+        # 设置窗口图标 - 使用绝对路径确保可靠性
+        self.set_window_icon()
+        
+        # 设置任务栏图标（Windows专用）
+        self.set_taskbar_icon()
+        
         # 初始化数据
         self.kms_servers = []
         self.windows_versions = {}
@@ -397,6 +397,78 @@ class KMSActivator:
         
         self.current_selection = {}
         
+    def set_window_icon(self):
+        """设置窗口图标"""
+        try:
+            # 获取当前脚本所在目录
+            if getattr(sys, 'frozen', False):
+                # 如果是打包后的exe文件
+                application_path = sys._MEIPASS
+            else:
+                # 如果是脚本运行
+                application_path = os.path.dirname(os.path.abspath(__file__))
+            
+            icon_path = os.path.join(application_path, "icon.ico")
+            
+            if os.path.exists(icon_path):
+                self.root.iconbitmap(icon_path)
+                print(f"成功加载图标: {icon_path}")
+            else:
+                print(f"图标文件不存在: {icon_path}")
+                
+        except Exception as e:
+            print(f"设置窗口图标时出错: {e}")
+            # 如果.ico文件加载失败，尝试使用.png文件
+            self.set_window_icon_from_png()
+    
+    def set_window_icon_from_png(self):
+        """从PNG文件设置窗口图标（备选方案）"""
+        try:
+            from PIL import Image, ImageTk
+            
+            # 获取当前脚本所在目录
+            if getattr(sys, 'frozen', False):
+                application_path = sys._MEIPASS
+            else:
+                application_path = os.path.dirname(os.path.abspath(__file__))
+            
+            png_path = os.path.join(application_path, "icon.png")
+            
+            if os.path.exists(png_path):
+                icon_image = Image.open(png_path)
+                icon_photo = ImageTk.PhotoImage(icon_image)
+                self.root.iconphoto(True, icon_photo)
+                print(f"成功从PNG加载图标: {png_path}")
+            else:
+                print(f"PNG图标文件不存在: {png_path}")
+                
+        except Exception as e:
+            print(f"从PNG设置图标时出错: {e}")
+    
+    def set_taskbar_icon(self):
+        """设置Windows任务栏图标"""
+        try:
+            import ctypes
+            
+            # 获取当前脚本所在目录
+            if getattr(sys, 'frozen', False):
+                application_path = sys._MEIPASS
+            else:
+                application_path = os.path.dirname(os.path.abspath(__file__))
+            
+            icon_path = os.path.join(application_path, "icon.ico")
+            
+            if os.path.exists(icon_path):
+                # 设置应用程序ID，确保任务栏图标正确显示
+                myappid = 'KMSActivator.Enterprise.1.0'
+                ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+                print("任务栏图标设置完成")
+            else:
+                print("任务栏图标文件不存在")
+                
+        except Exception as e:
+            print(f"设置任务栏图标时出错: {e}")
+            
     def run(self):
         """运行应用程序"""
         self.root.mainloop()
@@ -423,3 +495,75 @@ if __name__ == "__main__":
     # 只有具有管理员权限的实例才会继续执行这里
     app = KMSActivator()
     app.run()
+
+    def set_window_icon(self):
+        """设置窗口图标"""
+        try:
+            # 获取当前脚本所在目录
+            if getattr(sys, 'frozen', False):
+                # 如果是打包后的exe文件
+                application_path = sys._MEIPASS
+            else:
+                # 如果是脚本运行
+                application_path = os.path.dirname(os.path.abspath(__file__))
+            
+            icon_path = os.path.join(application_path, "icon.ico")
+            
+            if os.path.exists(icon_path):
+                self.root.iconbitmap(icon_path)
+                print(f"成功加载图标: {icon_path}")
+            else:
+                print(f"图标文件不存在: {icon_path}")
+                
+        except Exception as e:
+            print(f"设置窗口图标时出错: {e}")
+            # 如果.ico文件加载失败，尝试使用.png文件
+            self.set_window_icon_from_png()
+    
+    def set_window_icon_from_png(self):
+        """从PNG文件设置窗口图标（备选方案）"""
+        try:
+            from PIL import Image, ImageTk
+            
+            # 获取当前脚本所在目录
+            if getattr(sys, 'frozen', False):
+                application_path = sys._MEIPASS
+            else:
+                application_path = os.path.dirname(os.path.abspath(__file__))
+            
+            png_path = os.path.join(application_path, "icon.png")
+            
+            if os.path.exists(png_path):
+                icon_image = Image.open(png_path)
+                icon_photo = ImageTk.PhotoImage(icon_image)
+                self.root.iconphoto(True, icon_photo)
+                print(f"成功从PNG加载图标: {png_path}")
+            else:
+                print(f"PNG图标文件不存在: {png_path}")
+                
+        except Exception as e:
+            print(f"从PNG设置图标时出错: {e}")
+    
+    def set_taskbar_icon(self):
+        """设置Windows任务栏图标"""
+        try:
+            import ctypes
+            
+            # 获取当前脚本所在目录
+            if getattr(sys, 'frozen', False):
+                application_path = sys._MEIPASS
+            else:
+                application_path = os.path.dirname(os.path.abspath(__file__))
+            
+            icon_path = os.path.join(application_path, "icon.ico")
+            
+            if os.path.exists(icon_path):
+                # 设置应用程序ID，确保任务栏图标正确显示
+                myappid = 'KMSActivator.Enterprise.1.0'
+                ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+                print("任务栏图标设置完成")
+            else:
+                print("任务栏图标文件不存在")
+                
+        except Exception as e:
+            print(f"设置任务栏图标时出错: {e}")
