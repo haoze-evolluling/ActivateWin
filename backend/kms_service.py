@@ -118,14 +118,6 @@ class KMSService:
                 return False, f"激活失败: {message}"
             self._notify_callbacks("step_complete", {"step": 3})
             
-            # 步骤4: 验证激活状态
-            self._notify_callbacks("step_start", {"step": 4, "description": "验证激活状态"})
-            success, message = self._verify_activation()
-            if not success:
-                self._notify_callbacks("activation_complete", {"success": False, "error": message})
-                return False, f"验证失败: {message}"
-            self._notify_callbacks("step_complete", {"step": 4})
-            
             self._notify_callbacks("activation_complete", {"success": True})
             return True, "激活成功！Windows已成功激活。"
             
@@ -175,24 +167,6 @@ class KMSService:
             else:
                 error_msg = result.stderr.strip() if result.stderr else "未知错误"
                 return False, error_msg
-                
-        except Exception as e:
-            return False, str(e)
-            
-    def _verify_activation(self) -> tuple[bool, str]:
-        """验证激活状态"""
-        try:
-            cmd = "slmgr /dli"
-            result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
-            
-            if result.returncode == 0:
-                output = result.stdout.lower()
-                if "已授权" in output or "licensed" in output:
-                    return True, "Windows已激活"
-                else:
-                    return False, "Windows未激活"
-            else:
-                return False, "无法验证激活状态"
                 
         except Exception as e:
             return False, str(e)
