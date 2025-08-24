@@ -84,99 +84,123 @@ class UIManager:
         
     def _create_title_area(self, parent):
         """创建标题区域"""
-        title_frame = tk.Frame(parent, bg='white')
-        title_frame.pack(fill=tk.X, padx=20, pady=10)
+        title_frame = tk.Frame(parent, bg='SystemButtonFace')
+        title_frame.pack(fill=tk.X, padx=20, pady=(20, 10))
         
         title_label = tk.Label(title_frame, text="Windows KMS激活管理器", 
                                font=("Microsoft YaHei", 18, "bold"),
-                               fg='#2c3e50', bg='white')
+                               fg='#2c3e50', bg='SystemButtonFace')
         title_label.pack()
         
         subtitle_label = tk.Label(title_frame, text="基于微软官方授权的企业级激活管理工具", 
-                                   font=("Microsoft YaHei", 11), fg="#7f8c8d", bg='white')
+                                   font=("Microsoft YaHei", 11), fg="#7f8c8d", bg='SystemButtonFace')
         subtitle_label.pack()
     
     def _create_version_selection(self, parent):
         """创建版本选择区域"""
-        left_frame = tk.LabelFrame(parent, text="版本选择", 
-                                 bg='white', fg='black')
-        left_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 10), pady=15)
+        left_frame = tk.Frame(parent, bg='SystemButtonFace')
+        left_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(20, 10), pady=15)
+        
+        # 使用更轻量的边框
+        inner_frame = tk.Frame(left_frame, bg='white', relief='flat', bd=1)
+        inner_frame.pack(fill=tk.BOTH, expand=True)
+        
+        # 添加标题
+        title = tk.Label(inner_frame, text="版本选择", 
+                        font=("Microsoft YaHei", 10, "bold"),
+                        bg='white', fg='black')
+        title.pack(fill=tk.X, pady=(5, 10), padx=10)
         
         # 一级选择：Windows版本
-        tk.Label(left_frame, text="选择Windows版本:", bg='white', fg='black').pack(anchor=tk.W)
+        tk.Label(inner_frame, text="选择Windows版本:", bg='white', fg='black').pack(anchor=tk.W, padx=10)
         
         self.version_var = tk.StringVar()
-        version_combo = ttk.Combobox(left_frame, textvariable=self.version_var,
+        version_combo = ttk.Combobox(inner_frame, textvariable=self.version_var,
                                    values=self.data_manager.get_all_windows_versions(),
                                    state="readonly", width=25)
-        version_combo.pack(fill=tk.X, pady=5)
+        version_combo.pack(fill=tk.X, pady=5, padx=10)
         version_combo.bind("<<ComboboxSelected>>", self._on_version_selected)
         
         # 二级选择：具体版本号
-        tk.Label(left_frame, text="选择具体版本:", bg='white', fg='black').pack(anchor=tk.W, pady=(10, 0))
+        tk.Label(inner_frame, text="选择具体版本:", bg='white', fg='black').pack(anchor=tk.W, pady=(10, 0), padx=10)
         
         self.edition_var = tk.StringVar()
-        self.edition_combo = ttk.Combobox(left_frame, textvariable=self.edition_var,
+        self.edition_combo = ttk.Combobox(inner_frame, textvariable=self.edition_var,
                                         state="readonly", width=25)
-        self.edition_combo.pack(fill=tk.X, pady=5)
+        self.edition_combo.pack(fill=tk.X, pady=5, padx=10)
         self.edition_combo.bind("<<ComboboxSelected>>", self._on_edition_selected)
         
         # 显示选择的密钥
-        tk.Label(left_frame, text="对应产品密钥:", bg='white', fg='black').pack(anchor=tk.W, pady=(10, 0))
+        tk.Label(inner_frame, text="对应产品密钥:", bg='white', fg='black').pack(anchor=tk.W, pady=(10, 0), padx=10)
         
-        self.key_display = tk.Text(left_frame, height=2, width=30, state="disabled", bg='white', fg='black')
-        self.key_display.pack(fill=tk.X, pady=5)
+        self.key_display = tk.Text(inner_frame, height=2, width=30, state="disabled", bg='white', fg='black')
+        self.key_display.pack(fill=tk.X, pady=5, padx=10)
     
     def _create_server_config(self, parent):
         """创建服务器配置区域"""
-        right_frame = tk.LabelFrame(parent, text="KMS服务器配置", 
-                                  bg='white', fg='black')
-        right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, pady=15)
+        right_frame = tk.Frame(parent, bg='SystemButtonFace')
+        right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=(10, 20), pady=15)
+        
+        # 使用更轻量的边框
+        inner_frame = tk.Frame(right_frame, bg='white', relief='flat', bd=1)
+        inner_frame.pack(fill=tk.BOTH, expand=True)
+        
+        # 添加标题
+        title = tk.Label(inner_frame, text="KMS服务器配置", 
+                        font=("Microsoft YaHei", 10, "bold"),
+                        bg='white', fg='black')
+        title.pack(fill=tk.X, pady=(5, 10), padx=10)
         
         # 预设服务器选择
-        tk.Label(right_frame, text="选择预设KMS服务器:", bg='white', fg='black').pack(anchor=tk.W)
+        tk.Label(inner_frame, text="选择预设KMS服务器:", bg='white', fg='black').pack(anchor=tk.W, padx=10)
         
         self.selected_server = tk.StringVar()
-        self.server_combo = ttk.Combobox(right_frame, textvariable=self.selected_server,
+        self.server_combo = ttk.Combobox(inner_frame, textvariable=self.selected_server,
                                        values=self.data_manager.get_all_kms_servers(),
                                        state="readonly", width=35)
-        self.server_combo.pack(fill=tk.X, pady=5)
+        self.server_combo.pack(fill=tk.X, pady=5, padx=10)
         
         # 或选择自定义服务器
-        separator = ttk.Separator(right_frame, orient=tk.HORIZONTAL)
-        separator.pack(fill=tk.X, pady=10)
+        separator = ttk.Separator(inner_frame, orient=tk.HORIZONTAL)
+        separator.pack(fill=tk.X, pady=10, padx=10)
         
-        tk.Label(right_frame, text="或输入自定义服务器:", bg='white', fg='black').pack(anchor=tk.W)
+        tk.Label(inner_frame, text="或输入自定义服务器:", bg='white', fg='black').pack(anchor=tk.W, padx=10)
         
         self.custom_server = tk.StringVar()
-        custom_entry = ttk.Entry(right_frame, textvariable=self.custom_server, width=35)
-        custom_entry.pack(fill=tk.X, pady=5)
+        custom_entry = ttk.Entry(inner_frame, textvariable=self.custom_server, width=35)
+        custom_entry.pack(fill=tk.X, pady=5, padx=10)
         
         # 服务器状态显示
-        tk.Label(right_frame, text="服务器状态:", bg='white', fg='black').pack(anchor=tk.W, pady=(10, 0))
+        tk.Label(inner_frame, text="服务器状态:", bg='white', fg='black').pack(anchor=tk.W, pady=(10, 0), padx=10)
         
-        self.server_status = tk.Text(right_frame, height=3, width=35, state="disabled", bg='white', fg='black')
-        self.server_status.pack(fill=tk.X, pady=5)
+        self.server_status = tk.Text(inner_frame, height=3, width=35, state="disabled", bg='white', fg='black')
+        self.server_status.pack(fill=tk.X, pady=5, padx=10)
         
         # 测试连接按钮
-        test_btn = ttk.Button(right_frame, text="测试服务器连接", command=self._test_server_connection)
-        test_btn.pack(pady=5)
+        test_btn = ttk.Button(inner_frame, text="测试服务器连接", command=self._test_server_connection)
+        test_btn.pack(pady=5, padx=10)
     
     def _create_action_area(self, parent):
         """创建操作区域"""
-        bottom_frame = tk.Frame(parent, bg='')
-        bottom_frame.pack(fill=tk.X, padx=20, pady=10)
+        bottom_frame = tk.Frame(parent, bg='SystemButtonFace')
+        bottom_frame.pack(fill=tk.X, padx=20, pady=(10, 20))
         
         # 当前配置显示
-        config_frame = tk.LabelFrame(bottom_frame, text="当前配置", bg='white', fg='black')
+        config_frame = tk.Frame(bottom_frame, bg='white', relief='flat', bd=1)
         config_frame.pack(fill=tk.X, padx=10, pady=(0, 10))
         
+        # 添加标题
+        title = tk.Label(config_frame, text="当前配置", 
+                        font=("Microsoft YaHei", 10, "bold"),
+                        bg='white', fg='black')
+        title.pack(fill=tk.X, pady=(5, 10), padx=10)
+        
         self.config_display = tk.Text(config_frame, height=4, state="disabled", bg='white', fg='black')
-        self.config_display.pack(fill=tk.X)
+        self.config_display.pack(fill=tk.X, padx=10, pady=(0, 10))
         
         # 操作按钮
-        button_frame = tk.Frame(bottom_frame, bg='')
-        button_frame.pack(fill=tk.X)
+        button_frame = tk.Frame(bottom_frame, bg='SystemButtonFace')
+        button_frame.pack(fill=tk.X, padx=10)
         
         ttk.Button(button_frame, text="开始激活", command=self._start_activation).pack(side=tk.RIGHT, padx=5)
         ttk.Button(button_frame, text="清除配置", command=self._clear_config).pack(side=tk.RIGHT, padx=5)
@@ -243,7 +267,7 @@ class UIManager:
         elif status_type == "error":
             self.server_status.config(bg="#FFB6C1")  # 浅红色
         else:
-            self.server_status.config(bg="white")
+            self.server_status.config(bg="SystemButtonFace")  # 系统默认背景色
             
         self.server_status.config(state="disabled")
     
