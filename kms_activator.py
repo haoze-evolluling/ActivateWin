@@ -425,12 +425,8 @@ class KMSActivator:
             
             if os.path.exists(icon_path):
                 self.root.iconbitmap(icon_path)
-                print(f"成功加载图标: {icon_path}")
-            else:
-                print(f"图标文件不存在: {icon_path}")
-                
+            
         except Exception as e:
-            print(f"设置窗口图标时出错: {e}")
             # 如果.ico文件加载失败，尝试使用.png文件
             self.set_window_icon_from_png()
     
@@ -451,12 +447,9 @@ class KMSActivator:
                 icon_image = Image.open(png_path)
                 icon_photo = ImageTk.PhotoImage(icon_image)
                 self.root.iconphoto(True, icon_photo)
-                print(f"成功从PNG加载图标: {png_path}")
-            else:
-                print(f"PNG图标文件不存在: {png_path}")
                 
         except Exception as e:
-            print(f"从PNG设置图标时出错: {e}")
+            pass
     
     def set_taskbar_icon(self):
         """设置Windows任务栏图标"""
@@ -475,17 +468,16 @@ class KMSActivator:
                 # 设置应用程序ID，确保任务栏图标正确显示
                 myappid = 'KMSActivator.Enterprise.1.0'
                 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
-                print("任务栏图标设置完成")
-            else:
-                print("任务栏图标文件不存在")
                 
         except Exception as e:
-            print(f"设置任务栏图标时出错: {e}")
+            pass
             
     def set_background_image(self):
         """设置背景图片"""
         try:
-            # 获取当前脚本所在目录
+            if not Image:
+                return
+                
             if getattr(sys, 'frozen', False):
                 application_path = sys._MEIPASS
             else:
@@ -493,43 +485,24 @@ class KMSActivator:
             
             image_path = os.path.join(application_path, "image.png")
             
-            if os.path.exists(image_path) and Image and ImageTk:
-                # 加载并调整图片大小
+            if os.path.exists(image_path) and ImageTk:
                 original_image = Image.open(image_path)
-                # 获取窗口大小
-                window_width = 800
-                window_height = 600
+                resized_image = original_image.resize((800, 600), Image.Resampling.LANCZOS)
                 
-                # 调整图片大小以适应窗口
-                resized_image = original_image.resize((window_width, window_height), Image.Resampling.LANCZOS)
-                
-                # 可选：调整图片透明度
                 if resized_image.mode != 'RGBA':
                     resized_image = resized_image.convert('RGBA')
                 
-                # 创建半透明效果
-                alpha = resized_image.split()[-1]  # 获取alpha通道
-                alpha = alpha.point(lambda p: int(p * 0.5))  # 降低透明度到50%
+                alpha = resized_image.split()[-1]
+                alpha = alpha.point(lambda p: int(p * 0.5))
                 resized_image.putalpha(alpha)
                 
                 self.background_image = ImageTk.PhotoImage(resized_image)
-                
-                # 创建背景标签
                 self.background_label = tk.Label(self.root, image=self.background_image)
                 self.background_label.place(x=0, y=0, relwidth=1, relheight=1)
-                
-                # 确保背景标签在最低层
                 self.background_label.lower()
                 
-                print(f"成功加载背景图片: {image_path}")
-            else:
-                if not os.path.exists(image_path):
-                    print(f"背景图片文件不存在: {image_path}")
-                elif not Image:
-                    print("PIL库未安装，无法加载背景图片")
-                    
-        except Exception as e:
-            print(f"设置背景图片时出错: {e}")
+        except (ImportError, Exception):
+            pass
             
     def run(self):
         """运行应用程序"""
