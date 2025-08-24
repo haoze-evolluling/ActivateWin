@@ -14,11 +14,11 @@ net session >nul 2>&1
 if %errorLevel% neq 0 (
     echo 需要管理员权限，正在请求提升...
     echo.
-    powershell -Command "Start-Process python -ArgumentList 'kms_activator.py' -Verb RunAs"
+    powershell -Command "Start-Process python -ArgumentList 'kms_activator.py --admin' -Verb RunAs"
     goto :eof
 )
 
 :: 运行主程序
-python kms_activator.py
+python kms_activator.py --admin
 
 pause

@@ -14,6 +14,12 @@ import sys
 import json
 from typing import Dict, List, Tuple
 
+try:
+    from PIL import Image, ImageTk
+except ImportError:
+    Image = None
+    ImageTk = None
+
 class KMSActivator:
     def __init__(self):
         self.root = tk.Tk()
@@ -26,6 +32,9 @@ class KMSActivator:
         
         # 设置任务栏图标（Windows专用）
         self.set_taskbar_icon()
+        
+        # 设置背景图片
+        self.set_background_image()
         
         # 初始化数据
         self.kms_servers = []
@@ -85,41 +94,46 @@ class KMSActivator:
     def setup_ui(self):
         """设置用户界面"""
         # 设置主题
-        self.root.configure(bg='#f0f0f0')
+        if not (hasattr(self, 'background_image') and self.background_image):
+            self.root.configure(bg='#f0f0f0')
+        
+        # 创建主容器框架，用于容纳所有内容
+        main_container = tk.Frame(self.root, bg='')
+        main_container.pack(fill=tk.BOTH, expand=True)
         
         # 标题区域
-        title_frame = ttk.Frame(self.root)
+        title_frame = tk.Frame(main_container, bg='white')
         title_frame.pack(fill=tk.X, padx=20, pady=10)
         
-        title_label = ttk.Label(title_frame, text="Windows KMS激活管理器", 
+        title_label = tk.Label(title_frame, text="Windows KMS激活管理器", 
                                font=("Microsoft YaHei", 18, "bold"),
-                               foreground='#2c3e50')
+                               fg='#2c3e50', bg='white')
         title_label.pack()
         
-        subtitle_label = ttk.Label(title_frame, text="基于微软官方授权的企业级激活管理工具", 
-                                   font=("Microsoft YaHei", 11), foreground="#7f8c8d")
+        subtitle_label = tk.Label(title_frame, text="基于微软官方授权的企业级激活管理工具", 
+                                   font=("Microsoft YaHei", 11), fg="#7f8c8d", bg='white')
         subtitle_label.pack()
         
         # 主内容区域
-        main_frame = ttk.Frame(self.root)
+        main_frame = tk.Frame(main_container, bg='')
         main_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=10)
         
         # 左侧：版本选择
-        left_frame = ttk.LabelFrame(main_frame, text="版本选择", padding=15)
-        left_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 10))
-        left_frame.configure(style='Card.TFrame')
+        left_frame = tk.LabelFrame(main_frame, text="版本选择", 
+                                 bg='white', fg='black')
+        left_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 10), pady=15)
         
         self.setup_version_selection(left_frame)
         
         # 右侧：KMS服务器配置
-        right_frame = ttk.LabelFrame(main_frame, text="KMS服务器配置", padding=15)
-        right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
-        right_frame.configure(style='Card.TFrame')
+        right_frame = tk.LabelFrame(main_frame, text="KMS服务器配置", 
+                                  bg='white', fg='black')
+        right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, pady=15)
         
         self.setup_server_config(right_frame)
         
         # 底部：操作区域
-        bottom_frame = ttk.Frame(self.root)
+        bottom_frame = tk.Frame(main_container, bg='')
         bottom_frame.pack(fill=tk.X, padx=20, pady=10)
         
         self.setup_action_area(bottom_frame)
@@ -127,7 +141,7 @@ class KMSActivator:
     def setup_version_selection(self, parent):
         """设置版本选择界面"""
         # 一级选择：Windows版本
-        ttk.Label(parent, text="选择Windows版本:").pack(anchor=tk.W)
+        tk.Label(parent, text="选择Windows版本:", bg='white', fg='black').pack(anchor=tk.W)
         
         self.version_var = tk.StringVar()
         version_combo = ttk.Combobox(parent, textvariable=self.version_var,
@@ -137,7 +151,7 @@ class KMSActivator:
         version_combo.bind("<<ComboboxSelected>>", self.on_version_selected)
         
         # 二级选择：具体版本号
-        ttk.Label(parent, text="选择具体版本:").pack(anchor=tk.W, pady=(10, 0))
+        tk.Label(parent, text="选择具体版本:", bg='white', fg='black').pack(anchor=tk.W, pady=(10, 0))
         
         self.edition_var = tk.StringVar()
         self.edition_combo = ttk.Combobox(parent, textvariable=self.edition_var,
@@ -146,15 +160,15 @@ class KMSActivator:
         self.edition_combo.bind("<<ComboboxSelected>>", self.on_edition_selected)
         
         # 显示选择的密钥
-        ttk.Label(parent, text="对应产品密钥:").pack(anchor=tk.W, pady=(10, 0))
+        tk.Label(parent, text="对应产品密钥:", bg='white', fg='black').pack(anchor=tk.W, pady=(10, 0))
         
-        self.key_display = tk.Text(parent, height=2, width=30, state="disabled")
+        self.key_display = tk.Text(parent, height=2, width=30, state="disabled", bg='white', fg='black')
         self.key_display.pack(fill=tk.X, pady=5)
         
     def setup_server_config(self, parent):
         """设置KMS服务器配置界面"""
         # 预设服务器选择
-        ttk.Label(parent, text="选择预设KMS服务器:").pack(anchor=tk.W)
+        tk.Label(parent, text="选择预设KMS服务器:", bg='white', fg='black').pack(anchor=tk.W)
         
         self.server_combo = ttk.Combobox(parent, textvariable=self.selected_server,
                                        values=self.kms_servers, state="readonly", width=35)
@@ -164,15 +178,15 @@ class KMSActivator:
         separator = ttk.Separator(parent, orient=tk.HORIZONTAL)
         separator.pack(fill=tk.X, pady=10)
         
-        ttk.Label(parent, text="或输入自定义服务器:").pack(anchor=tk.W)
+        tk.Label(parent, text="或输入自定义服务器:", bg='white', fg='black').pack(anchor=tk.W)
         
         custom_entry = ttk.Entry(parent, textvariable=self.custom_server, width=35)
         custom_entry.pack(fill=tk.X, pady=5)
         
         # 服务器状态显示
-        ttk.Label(parent, text="服务器状态:").pack(anchor=tk.W, pady=(10, 0))
+        tk.Label(parent, text="服务器状态:", bg='white', fg='black').pack(anchor=tk.W, pady=(10, 0))
         
-        self.server_status = tk.Text(parent, height=3, width=35, state="disabled")
+        self.server_status = tk.Text(parent, height=3, width=35, state="disabled", bg='white', fg='black')
         self.server_status.pack(fill=tk.X, pady=5)
         
         # 测试连接按钮
@@ -182,18 +196,17 @@ class KMSActivator:
     def setup_action_area(self, parent):
         """设置操作区域"""
         # 当前配置显示
-        config_frame = ttk.LabelFrame(parent, text="当前配置", padding=10)
-        config_frame.pack(fill=tk.X, pady=(0, 10))
+        config_frame = tk.LabelFrame(parent, text="当前配置", bg='white', fg='black')
+        config_frame.pack(fill=tk.X, padx=10, pady=(0, 10))
         
-        self.config_display = tk.Text(config_frame, height=4, state="disabled")
+        self.config_display = tk.Text(config_frame, height=4, state="disabled", bg='white', fg='black')
         self.config_display.pack(fill=tk.X)
         
         # 操作按钮
-        button_frame = ttk.Frame(parent)
+        button_frame = tk.Frame(parent, bg='')
         button_frame.pack(fill=tk.X)
         
-        ttk.Button(button_frame, text="开始激活", command=self.start_activation,
-                  style="Accent.TButton").pack(side=tk.RIGHT, padx=5)
+        ttk.Button(button_frame, text="开始激活", command=self.start_activation).pack(side=tk.RIGHT, padx=5)
         
         ttk.Button(button_frame, text="清除配置", command=self.clear_config).pack(side=tk.RIGHT, padx=5)
         
@@ -469,6 +482,55 @@ class KMSActivator:
         except Exception as e:
             print(f"设置任务栏图标时出错: {e}")
             
+    def set_background_image(self):
+        """设置背景图片"""
+        try:
+            # 获取当前脚本所在目录
+            if getattr(sys, 'frozen', False):
+                application_path = sys._MEIPASS
+            else:
+                application_path = os.path.dirname(os.path.abspath(__file__))
+            
+            image_path = os.path.join(application_path, "image.png")
+            
+            if os.path.exists(image_path) and Image and ImageTk:
+                # 加载并调整图片大小
+                original_image = Image.open(image_path)
+                # 获取窗口大小
+                window_width = 800
+                window_height = 600
+                
+                # 调整图片大小以适应窗口
+                resized_image = original_image.resize((window_width, window_height), Image.Resampling.LANCZOS)
+                
+                # 可选：调整图片透明度
+                if resized_image.mode != 'RGBA':
+                    resized_image = resized_image.convert('RGBA')
+                
+                # 创建半透明效果
+                alpha = resized_image.split()[-1]  # 获取alpha通道
+                alpha = alpha.point(lambda p: int(p * 0.5))  # 降低透明度到50%
+                resized_image.putalpha(alpha)
+                
+                self.background_image = ImageTk.PhotoImage(resized_image)
+                
+                # 创建背景标签
+                self.background_label = tk.Label(self.root, image=self.background_image)
+                self.background_label.place(x=0, y=0, relwidth=1, relheight=1)
+                
+                # 确保背景标签在最低层
+                self.background_label.lower()
+                
+                print(f"成功加载背景图片: {image_path}")
+            else:
+                if not os.path.exists(image_path):
+                    print(f"背景图片文件不存在: {image_path}")
+                elif not Image:
+                    print("PIL库未安装，无法加载背景图片")
+                    
+        except Exception as e:
+            print(f"设置背景图片时出错: {e}")
+            
     def run(self):
         """运行应用程序"""
         self.root.mainloop()
@@ -477,11 +539,33 @@ if __name__ == "__main__":
     # 检查管理员权限
     try:
         import ctypes
-        if not ctypes.windll.shell32.IsUserAnAdmin():
-            # 以管理员身份重新运行程序，然后立即退出当前实例
-            ctypes.windll.shell32.ShellExecuteW(
-                None, "runas", sys.executable, __file__, None, 1)
-            sys.exit(0)
+        
+        # 检查是否已经尝试过提升权限
+        if len(sys.argv) > 1 and sys.argv[1] == "--admin":
+            # 已经是以管理员身份运行，继续正常执行
+            pass
+        elif not ctypes.windll.shell32.IsUserAnAdmin():
+            # 以管理员身份重新运行程序，添加标记参数避免无限循环
+            script_path = __file__
+            if getattr(sys, 'frozen', False):
+                # 如果是打包后的exe文件
+                script_path = sys.executable
+                params = "--admin"
+            else:
+                # 如果是脚本运行
+                params = f'"{__file__}" --admin'
+            
+            # 使用ShellExecuteW以管理员身份重新运行
+            result = ctypes.windll.shell32.ShellExecuteW(
+                None, "runas", sys.executable, params, None, 1)
+            
+            # 如果ShellExecuteW成功（返回值 > 32），退出当前实例
+            if result > 32:
+                sys.exit(0)
+            else:
+                # ShellExecuteW失败，显示错误并继续运行
+                raise Exception("权限提升失败，错误代码: " + str(result))
+                
     except SystemExit:
         # 正常退出
         sys.exit(0)
@@ -489,81 +573,9 @@ if __name__ == "__main__":
         # 如果权限提升失败，显示错误信息并继续运行（可能无法执行激活命令）
         root = tk.Tk()
         root.withdraw()  # 隐藏主窗口
-        messagebox.showwarning("警告", f"无法获取管理员权限，某些功能可能受限:\n{str(e)}")
+        messagebox.showwarning("警告", f"无法获取管理员权限，某些功能可能受限:\n{str(e)}\n\n建议：请手动右键以管理员身份运行程序")
         root.destroy()
         
     # 只有具有管理员权限的实例才会继续执行这里
     app = KMSActivator()
     app.run()
-
-    def set_window_icon(self):
-        """设置窗口图标"""
-        try:
-            # 获取当前脚本所在目录
-            if getattr(sys, 'frozen', False):
-                # 如果是打包后的exe文件
-                application_path = sys._MEIPASS
-            else:
-                # 如果是脚本运行
-                application_path = os.path.dirname(os.path.abspath(__file__))
-            
-            icon_path = os.path.join(application_path, "icon.ico")
-            
-            if os.path.exists(icon_path):
-                self.root.iconbitmap(icon_path)
-                print(f"成功加载图标: {icon_path}")
-            else:
-                print(f"图标文件不存在: {icon_path}")
-                
-        except Exception as e:
-            print(f"设置窗口图标时出错: {e}")
-            # 如果.ico文件加载失败，尝试使用.png文件
-            self.set_window_icon_from_png()
-    
-    def set_window_icon_from_png(self):
-        """从PNG文件设置窗口图标（备选方案）"""
-        try:
-            from PIL import Image, ImageTk
-            
-            # 获取当前脚本所在目录
-            if getattr(sys, 'frozen', False):
-                application_path = sys._MEIPASS
-            else:
-                application_path = os.path.dirname(os.path.abspath(__file__))
-            
-            png_path = os.path.join(application_path, "icon.png")
-            
-            if os.path.exists(png_path):
-                icon_image = Image.open(png_path)
-                icon_photo = ImageTk.PhotoImage(icon_image)
-                self.root.iconphoto(True, icon_photo)
-                print(f"成功从PNG加载图标: {png_path}")
-            else:
-                print(f"PNG图标文件不存在: {png_path}")
-                
-        except Exception as e:
-            print(f"从PNG设置图标时出错: {e}")
-    
-    def set_taskbar_icon(self):
-        """设置Windows任务栏图标"""
-        try:
-            import ctypes
-            
-            # 获取当前脚本所在目录
-            if getattr(sys, 'frozen', False):
-                application_path = sys._MEIPASS
-            else:
-                application_path = os.path.dirname(os.path.abspath(__file__))
-            
-            icon_path = os.path.join(application_path, "icon.ico")
-            
-            if os.path.exists(icon_path):
-                # 设置应用程序ID，确保任务栏图标正确显示
-                myappid = 'KMSActivator.Enterprise.1.0'
-                ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
-                print("任务栏图标设置完成")
-            else:
-                print("任务栏图标文件不存在")
-                
-        except Exception as e:
-            print(f"设置任务栏图标时出错: {e}")
