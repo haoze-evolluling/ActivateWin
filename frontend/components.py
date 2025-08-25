@@ -323,6 +323,7 @@ class ActivationPanel(tk.Toplevel):
         self.resizable(False, False)
         self.transient(parent)
         self.grab_set()
+        self.configure(bg='#e6f7ff')  # 初音未来蓝背景
         
         self.create_widgets()
         
@@ -332,15 +333,17 @@ class ActivationPanel(tk.Toplevel):
         title = ttk.Label(
             self,
             text="正在执行Windows激活...",
-            font=('Microsoft YaHei', 12, 'bold')
+            font=('Microsoft YaHei', 12, 'bold'),
+            foreground='#00a0e9'
         )
         title.pack(pady=20)
         
-        # 进度条
+        # 进度条 - 使用初音未来蓝色主题
         self.progress = ttk.Progressbar(
             self,
             mode='indeterminate',
-            length=300
+            length=300,
+            style='Miku.Horizontal.TProgressbar'
         )
         self.progress.pack(pady=10)
         self.progress.start()
@@ -350,7 +353,10 @@ class ActivationPanel(tk.Toplevel):
             self,
             height=8,
             width=40,
-            state='disabled'
+            state='disabled',
+            bg='#f0f8ff',
+            fg='#0066cc',
+            font=('Microsoft YaHei', 9)
         )
         self.status_text.pack(pady=10, padx=20)
         
@@ -358,7 +364,8 @@ class ActivationPanel(tk.Toplevel):
         self.close_btn = ttk.Button(
             self,
             text="取消",
-            command=self.destroy
+            command=self.destroy,
+            style='Action.TButton'
         )
         self.close_btn.pack(pady=10)
         

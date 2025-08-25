@@ -32,7 +32,7 @@ class MainWindow:
         self.root.title("Windows KMS激活管理器 - 企业版")
         self.root.geometry("800x640")
         self.root.resizable(False, False)
-        self.root.configure(bg='#f0f0f0')
+        self.root.configure(bg='#e6f7ff')  # 初音未来蓝浅背景色
         
         # 设置窗口图标
         self.set_window_icon()
