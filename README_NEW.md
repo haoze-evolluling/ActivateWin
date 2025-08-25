@@ -124,7 +124,7 @@ def new_activation_method(self, config: ActivationConfig) -> Tuple[bool, str]:
 from models.activation_data import ActivationData
 
 data = ActivationData()
-print(data.get_all_windows_versions())
+# data.get_all_windows_versions()
 ```
 
 #### 测试后端服务

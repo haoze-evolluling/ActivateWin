@@ -74,14 +74,11 @@ def main():
     """主程序入口"""
     # 检查管理员权限
     if not check_admin_privileges():
-        print("需要管理员权限，正在尝试提升...")
-        
         try:
             if elevate_privileges():
-                print("权限提升成功，正在重新启动...")
                 sys.exit(0)
             else:
-                print("权限提升失败，继续以普通权限运行...")
+                pass
                 
                 # 显示警告消息
                 root = tk.Tk()
@@ -94,7 +91,6 @@ def main():
                 root.destroy()
                 
         except Exception as e:
-            print(f"权限提升错误: {e}")
             root = tk.Tk()
             root.withdraw()
             messagebox.showwarning(
@@ -109,7 +105,6 @@ def main():
         ui_manager = UIManager()
         ui_manager.run()
     except Exception as e:
-        print(f"程序运行错误: {e}")
         root = tk.Tk()
         root.withdraw()
         messagebox.showerror("错误", f"程序启动失败:\n{str(e)}")

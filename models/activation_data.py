@@ -30,11 +30,25 @@ class ServerStatus:
 class ActivationData:
     """激活数据管理类"""
     
-    def __init__(self):
-        self.windows_versions = self._load_windows_versions()
-        self.kms_servers = self._load_kms_servers()
-        
-    def _load_windows_versions(self) -> Dict[str, Dict[str, str]]:
+    _windows_versions = None
+    _kms_servers = None
+    
+    @classmethod
+    def _get_windows_versions(cls) -> Dict[str, Dict[str, str]]:
+        """获取Windows版本和密钥数据"""
+        if cls._windows_versions is None:
+            cls._windows_versions = cls._load_windows_versions()
+        return cls._windows_versions
+    
+    @classmethod
+    def _get_kms_servers(cls) -> List[str]:
+        """获取KMS服务器列表"""
+        if cls._kms_servers is None:
+            cls._kms_servers = cls._load_kms_servers()
+        return cls._kms_servers
+    
+    @staticmethod
+    def _load_windows_versions() -> Dict[str, Dict[str, str]]:
         """加载Windows版本和密钥数据"""
         return {
             "Windows 11": {
@@ -70,7 +84,8 @@ class ActivationData:
             }
         }
     
-    def _load_kms_servers(self) -> List[str]:
+    @staticmethod
+    def _load_kms_servers() -> List[str]:
         """加载KMS服务器列表"""
         try:
             import os
@@ -95,22 +110,28 @@ class ActivationData:
             "kms.litbear.cn"
         ]
     
-    def get_editions(self, windows_version: str) -> List[str]:
+    @staticmethod
+    def get_editions(windows_version: str) -> List[str]:
         """获取指定Windows版本的所有版本"""
-        if windows_version in self.windows_versions:
-            return list(self.windows_versions[windows_version].keys())
+        versions = ActivationData._get_windows_versions()
+        if windows_version in versions:
+            return list(versions[windows_version].keys())
         return []
     
-    def get_product_key(self, windows_version: str, edition: str) -> Optional[str]:
+    @staticmethod
+    def get_product_key(windows_version: str, edition: str) -> Optional[str]:
         """获取产品密钥"""
-        if windows_version in self.windows_versions and edition in self.windows_versions[windows_version]:
-            return self.windows_versions[windows_version][edition]
+        versions = ActivationData._get_windows_versions()
+        if windows_version in versions and edition in versions[windows_version]:
+            return versions[windows_version][edition]
         return None
     
-    def get_all_windows_versions(self) -> List[str]:
+    @staticmethod
+    def get_all_windows_versions() -> List[str]:
         """获取所有Windows版本"""
-        return list(self.windows_versions.keys())
+        return list(ActivationData._get_windows_versions().keys())
     
-    def get_all_kms_servers(self) -> List[str]:
+    @staticmethod
+    def get_all_kms_servers() -> List[str]:
         """获取所有KMS服务器"""
-        return self.kms_servers
+        return ActivationData._get_kms_servers()

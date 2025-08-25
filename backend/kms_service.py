@@ -28,9 +28,10 @@ class KMSService:
             try:
                 callback(event_type, data)
             except Exception as e:
-                print(f"回调执行错误: {e}")
+                pass
                 
-    def test_server_connection(self, server: str) -> ServerStatus:
+    @staticmethod
+    def test_server_connection(server: str) -> ServerStatus:
         """测试KMS服务器连接"""
         try:
             # 解析服务器地址和端口
