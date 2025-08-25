@@ -365,9 +365,76 @@ class ActivationPanel(tk.Toplevel):
     def start_activation(self, version_config, kms_config):
         """开始激活"""
         self.update_status("准备激活...")
-        # 这里应该调用实际的激活服务
-        # 暂时模拟激活过程
-        self.after(2000, self.simulate_activation)
+        
+        # 验证配置完整性
+        if not version_config or not kms_config:
+            self.on_activation_complete(False, "配置不完整，请检查所有必要参数")
+            return
+            
+        if not version_config.get('product_key'):
+            self.on_activation_complete(False, "产品密钥为空")
+            return
+            
+        if not kms_config.get('server'):
+            self.on_activation_complete(False, "KMS服务器地址为空")
+            return
+        
+        # 导入后端服务
+        try:
+            from backend.kms_service import KMSService
+            from models.activation_data import ActivationConfig
+            
+            # 创建激活配置
+            config = ActivationConfig(
+                windows_version=version_config['version'],
+                edition=version_config['edition'],
+                product_key=version_config['product_key'],
+                kms_server=kms_config['server']
+            )
+            
+            # 创建KMS服务实例
+            kms_service = KMSService()
+            
+            # 添加回调函数以更新UI
+            def activation_callback(event_type, data):
+                try:
+                    if event_type == "activation_start":
+                        self.update_status("开始激活流程...")
+                    elif event_type == "step_start":
+                        step_desc = data.get("description", "")
+                        self.update_status(f"正在执行: {step_desc}")
+                    elif event_type == "step_complete":
+                        step_num = data.get("step", 0)
+                        self.update_status(f"步骤 {step_num} 完成")
+                    elif event_type == "activation_complete":
+                        success = data.get("success", False)
+                        error = data.get("error", "")
+                        self.root.after(0, lambda s=success, e=error: self.on_activation_complete(s, e))
+                except Exception as callback_error:
+                    self.root.after(0, lambda e=str(callback_error): self.on_activation_complete(False, f"回调处理错误: {e}"))
+            
+            kms_service.add_activation_callback(activation_callback)
+            
+            # 在后台线程中执行激活
+            import threading
+            def run_activation():
+                try:
+                    success, message = kms_service.execute_activation(config)
+                    self.root.after(0, lambda s=success, m=message: self.on_activation_complete(s, m))
+                except Exception as e:
+                    error_msg = f"激活过程错误: {str(e)}"
+                    self.root.after(0, lambda e=error_msg: self.on_activation_complete(False, e))
+            
+            threading.Thread(target=run_activation, daemon=True).start()
+            
+        except ImportError as e:
+            error_msg = f"导入模块失败: {e}"
+            self.update_status(error_msg)
+            self.after(1000, lambda: self.on_activation_complete(False, error_msg))
+        except Exception as e:
+            error_msg = f"启动激活失败: {e}"
+            self.update_status(error_msg)
+            self.after(1000, lambda: self.on_activation_complete(False, error_msg))
         
     def update_status(self, message):
         """更新状态"""
@@ -376,8 +443,24 @@ class ActivationPanel(tk.Toplevel):
         self.status_text.see(tk.END)
         self.status_text.config(state='disabled')
         
+    def on_activation_complete(self, success, message):
+        """激活完成处理"""
+        self.progress.stop()
+        
+        if success:
+            self.update_status("激活成功！")
+            self.update_status("Windows已成功激活")
+        else:
+            self.update_status(f"激活失败: {message}")
+        
+        self.close_btn.config(text="完成")
+        
+        # 显示结果对话框
+        from frontend.dialogs import ActivationResultDialog
+        ActivationResultDialog(self, success, message)
+        
     def simulate_activation(self):
-        """模拟激活过程"""
+        """模拟激活过程（已废弃，保留用于测试）"""
         steps = [
             "正在验证产品密钥...",
             "正在连接KMS服务器...",
