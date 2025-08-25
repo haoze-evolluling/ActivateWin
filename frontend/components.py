@@ -465,23 +465,3 @@ class ActivationPanel(tk.Toplevel):
         # 显示结果对话框
         from frontend.dialogs import ActivationResultDialog
         ActivationResultDialog(self, success, message)
-        
-    def simulate_activation(self):
-        """模拟激活过程（已废弃，保留用于测试）"""
-        steps = [
-            "正在验证产品密钥...",
-            "正在连接KMS服务器...",
-            "正在发送激活请求...",
-            "正在处理激活响应...",
-            "激活成功！"
-        ]
-        
-        def next_step(index=0):
-            if index < len(steps):
-                self.update_status(steps[index])
-                self.after(1000, lambda: next_step(index + 1))
-            else:
-                self.progress.stop()
-                self.close_btn.config(text="完成")
-                
-        next_step()
