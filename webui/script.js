@@ -63,7 +63,6 @@ function openActivationDialog() {
 }
 
 function openKMSDialog() {
-    // 这里可以添加KMS配置对话框
     showNotification('KMS配置功能开发中...', 'info');
 }
 
@@ -181,9 +180,6 @@ function loadSettings() {
     document.getElementById('kms-server').value = settings.kmsServer || '';
     document.getElementById('kms-port').value = settings.kmsPort || '1688';
     
-    // 不再加载主题设置，始终使用深色主题
-    
-    // 设置KMS设置的自动保存
     setupKMSSettingsAutoSave();
 }
 
@@ -204,10 +200,7 @@ function saveSettings() {
     showNotification('设置已保存', 'success');
 }
 
-// 移除主题切换相关函数
-function setupThemeToggle() {
-    // 移除整个函数
-}
+// 主题切换功能已移除，相关代码已清理
 
 // 简化主题应用，只使用深色主题
 function applyDarkTheme() {
@@ -220,32 +213,11 @@ function applyDarkTheme() {
     root.style.setProperty('--text-muted', '#94a3b8');
 }
 
-// 移除原有的applyTheme函数
-// function applyTheme(theme) {
-//     const root = document.documentElement;
-//     
-//     if (theme === 'dark') {
-//         root.style.setProperty('--bg-primary', 'rgba(15, 23, 42, 0.9)');
-//         root.style.setProperty('--bg-secondary', 'rgba(30, 41, 59, 0.7)');
-//     } else if (theme === 'light') {
-//         root.style.setProperty('--bg-primary', 'rgba(248, 250, 252, 0.9)');
-//         root.style.setProperty('--bg-secondary', 'rgba(241, 245, 249, 0.7)');
-//         root.style.setProperty('--text-primary', '#1e293b');
-//         root.style.setProperty('--text-secondary', '#475569');
-//     } else {
-//         // 自动模式 - 根据系统偏好
-//         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-//             applyTheme('dark');
-//         } else {
-//             applyTheme('light');
-//         }
-//     }
-// }
+// 主题切换功能已完全移除，仅使用深色主题
 
 // 系统状态检查
 async function checkSystemStatus() {
     try {
-        // 这里可以添加实际的系统检查逻辑
         const systemInfo = await getSystemInfo();
         console.log('系统信息:', systemInfo);
     } catch (error) {
@@ -367,21 +339,9 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-// 窗口大小变化时重新计算布局
-window.addEventListener('resize', function() {
-    // 这里可以添加响应式布局调整逻辑
-});
+// 窗口大小变化监听已预留
 
-// 移除系统主题变化监听
-// if (window.matchMedia) {
-//     const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
-//     darkModeQuery.addEventListener('change', function() {
-//         const currentTheme = document.getElementById('theme-select').value;
-//         if (currentTheme === 'auto') {
-//             applyTheme('auto');
-//         }
-//     });
-// }
+// 系统主题变化监听已移除
 
 // 添加通知样式
 const notificationStyles = document.createElement('style');
