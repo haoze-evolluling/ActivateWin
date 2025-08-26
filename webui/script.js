@@ -12,7 +12,10 @@ function initializeApp() {
     setupTabSwitching();
     loadSettings();
     checkSystemStatus();
-    setupThemeToggle();
+    // setupThemeToggle() - 移除主题切换设置
+    
+    // 直接应用深色主题
+    applyDarkTheme();
     
     // 添加页面加载动画
     animateOnLoad();
@@ -174,57 +177,70 @@ function loadSettings() {
     // 从localStorage加载设置
     const settings = JSON.parse(localStorage.getItem('activateWinSettings') || '{}');
     
-    // 应用设置
-    document.getElementById('theme-select').value = settings.theme || 'auto';
+    // 应用KMS设置
     document.getElementById('kms-server').value = settings.kmsServer || '';
     document.getElementById('kms-port').value = settings.kmsPort || '1688';
     
-    // 应用主题
-    applyTheme(settings.theme || 'auto');
+    // 不再加载主题设置，始终使用深色主题
+    
+    // 设置KMS设置的自动保存
+    setupKMSSettingsAutoSave();
 }
 
-function saveSettings() {
-    const settings = {
-        theme: document.getElementById('theme-select').value,
-        kmsServer: document.getElementById('kms-server').value,
-        kmsPort: document.getElementById('kms-port').value
-    };
-    
-    localStorage.setItem('activateWinSettings', JSON.stringify(settings));
-    applyTheme(settings.theme);
-    showNotification('设置已保存', 'success');
-}
-
-function setupThemeToggle() {
-    const themeSelect = document.getElementById('theme-select');
-    
-    themeSelect.addEventListener('change', saveSettings);
-    
+function setupKMSSettingsAutoSave() {
     // KMS设置自动保存
     document.getElementById('kms-server').addEventListener('blur', saveSettings);
     document.getElementById('kms-port').addEventListener('blur', saveSettings);
 }
 
-function applyTheme(theme) {
-    const root = document.documentElement;
+function saveSettings() {
+    const settings = {
+        kmsServer: document.getElementById('kms-server').value,
+        kmsPort: document.getElementById('kms-port').value
+        // 不再保存主题设置
+    };
     
-    if (theme === 'dark') {
-        root.style.setProperty('--bg-primary', 'rgba(15, 23, 42, 0.9)');
-        root.style.setProperty('--bg-secondary', 'rgba(30, 41, 59, 0.7)');
-    } else if (theme === 'light') {
-        root.style.setProperty('--bg-primary', 'rgba(248, 250, 252, 0.9)');
-        root.style.setProperty('--bg-secondary', 'rgba(241, 245, 249, 0.7)');
-        root.style.setProperty('--text-primary', '#1e293b');
-        root.style.setProperty('--text-secondary', '#475569');
-    } else {
-        // 自动模式 - 根据系统偏好
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            applyTheme('dark');
-        } else {
-            applyTheme('light');
-        }
-    }
+    localStorage.setItem('activateWinSettings', JSON.stringify(settings));
+    showNotification('设置已保存', 'success');
 }
+
+// 移除主题切换相关函数
+function setupThemeToggle() {
+    // 移除整个函数
+}
+
+// 简化主题应用，只使用深色主题
+function applyDarkTheme() {
+    const root = document.documentElement;
+    root.style.setProperty('--bg-primary', 'rgba(15, 23, 42, 0.9)');
+    root.style.setProperty('--bg-secondary', 'rgba(30, 41, 59, 0.7)');
+    root.style.setProperty('--bg-tertiary', 'rgba(51, 65, 85, 0.4)');
+    root.style.setProperty('--text-primary', '#f8fafc');
+    root.style.setProperty('--text-secondary', '#cbd5e1');
+    root.style.setProperty('--text-muted', '#94a3b8');
+}
+
+// 移除原有的applyTheme函数
+// function applyTheme(theme) {
+//     const root = document.documentElement;
+//     
+//     if (theme === 'dark') {
+//         root.style.setProperty('--bg-primary', 'rgba(15, 23, 42, 0.9)');
+//         root.style.setProperty('--bg-secondary', 'rgba(30, 41, 59, 0.7)');
+//     } else if (theme === 'light') {
+//         root.style.setProperty('--bg-primary', 'rgba(248, 250, 252, 0.9)');
+//         root.style.setProperty('--bg-secondary', 'rgba(241, 245, 249, 0.7)');
+//         root.style.setProperty('--text-primary', '#1e293b');
+//         root.style.setProperty('--text-secondary', '#475569');
+//     } else {
+//         // 自动模式 - 根据系统偏好
+//         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+//             applyTheme('dark');
+//         } else {
+//             applyTheme('light');
+//         }
+//     }
+// }
 
 // 系统状态检查
 async function checkSystemStatus() {
@@ -356,16 +372,16 @@ window.addEventListener('resize', function() {
     // 这里可以添加响应式布局调整逻辑
 });
 
-// 系统主题变化监听
-if (window.matchMedia) {
-    const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    darkModeQuery.addEventListener('change', function() {
-        const currentTheme = document.getElementById('theme-select').value;
-        if (currentTheme === 'auto') {
-            applyTheme('auto');
-        }
-    });
-}
+// 移除系统主题变化监听
+// if (window.matchMedia) {
+//     const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+//     darkModeQuery.addEventListener('change', function() {
+//         const currentTheme = document.getElementById('theme-select').value;
+//         if (currentTheme === 'auto') {
+//             applyTheme('auto');
+//         }
+//     });
+// }
 
 // 添加通知样式
 const notificationStyles = document.createElement('style');
