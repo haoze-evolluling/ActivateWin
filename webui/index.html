@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ActivateWin - Windows激活工具</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="background">
+        <div class="gradient-orbs">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <header class="glass-header">
+            <div class="logo">
+                <i class="fab fa-windows"></i>
+                <h1>ActivateWin</h1>
+            </div>
+            <nav class="nav-tabs">
+                <button class="nav-btn active" data-tab="activation">激活</button>
+                <button class="nav-btn" data-tab="status">状态</button>
+                <button class="nav-btn" data-tab="settings">设置</button>
+            </nav>
+        </header>
+
+        <main class="glass-main">
+            <!-- 激活页面 -->
+            <div class="tab-content active" id="activation-tab">
+                <div class="hero-section">
+                    <h2>Windows系统激活</h2>
+                    <p class="subtitle">使用KMS技术快速激活您的Windows系统</p>
+                </div>
+
+                <div class="activation-grid">
+                    <div class="glass-card">
+                        <div class="card-icon">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <h3>产品密钥激活</h3>
+                        <p>使用有效的产品密钥激活Windows</p>
+                        <button class="btn-primary" onclick="openActivationDialog()">
+                            <i class="fas fa-rocket"></i>
+                            开始激活
+                        </button>
+                    </div>
+
+                    <div class="glass-card">
+                        <div class="card-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h3>KMS服务器激活</h3>
+                        <p>连接到KMS服务器进行自动激活</p>
+                        <button class="btn-secondary" onclick="openKMSDialog()">
+                            <i class="fas fa-network-wired"></i>
+                            配置KMS
+                        </button>
+                    </div>
+
+                    <div class="glass-card">
+                        <div class="card-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>激活状态检查</h3>
+                        <p>检查当前系统的激活状态</p>
+                        <button class="btn-accent" onclick="checkActivationStatus()">
+                            <i class="fas fa-search"></i>
+                            检查状态
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 状态页面 -->
+            <div class="tab-content" id="status-tab">
+                <div class="status-section">
+                    <h2>系统激活状态</h2>
+                    <div class="status-card glass-card">
+                        <div class="status-header">
+                            <i class="fas fa-desktop"></i>
+                            <div class="status-info">
+                                <h3>Windows 10 Pro</h3>
+                                <p class="status-indicator">
+                                    <span class="status-dot" id="status-dot"></span>
+                                    <span id="status-text">正在检测...</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="status-details">
+                            <div class="detail-item">
+                                <span>产品ID:</span>
+                                <span id="product-id">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>许可证状态:</span>
+                                <span id="license-status">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>到期时间:</span>
+                                <span id="expiry-date">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 设置页面 -->
+            <div class="tab-content" id="settings-tab">
+                <div class="settings-section">
+                    <h2>激活设置</h2>
+                    <div class="settings-grid">
+                        <div class="glass-card">
+                            <h3>外观设置</h3>
+                            <div class="setting-item">
+                                <label>主题模式</label>
+                                <select class="glass-select" id="theme-select">
+                                    <option value="auto">自动</option>
+                                    <option value="light">浅色</option>
+                                    <option value="dark">深色</option>
+                                </select>
+                            </div>
+                            <div class="setting-item">
+                                <label>动画效果</label>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="animations-toggle" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="glass-card">
+                            <h3>KMS设置</h3>
+                            <div class="setting-item">
+                                <label>KMS服务器</label>
+                                <input type="text" class="glass-input" id="kms-server" placeholder="kms.example.com">
+                            </div>
+                            <div class="setting-item">
+                                <label>KMS端口</label>
+                                <input type="number" class="glass-input" id="kms-port" value="1688">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 激活对话框 -->
+    <div class="modal" id="activation-modal">
+        <div class="modal-content glass-modal">
+            <div class="modal-header">
+                <h3>Windows激活</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="activation-form">
+                    <div class="form-group">
+                        <label>选择Windows版本</label>
+                        <select class="glass-select" id="windows-version">
+                            <option value="win10">Windows 10</option>
+                            <option value="win11">Windows 11</option>
+                            <option value="server2019">Windows Server 2019</option>
+                            <option value="server2022">Windows Server 2022</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>产品密钥 (可选)</label>
+                        <input type="text" class="glass-input" id="product-key" placeholder="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX">
+                    </div>
+                </div>
+                <div class="progress-section" id="progress-section" style="display: none;">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <p class="progress-text" id="progress-text">准备激活...</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal()">取消</button>
+                <button class="btn-primary" id="activate-btn" onclick="startActivation()">开始激活</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
