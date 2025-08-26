@@ -19,6 +19,9 @@ function initializeApp() {
     
     // 添加页面加载动画
     animateOnLoad();
+    
+    // 初始化树状选择器
+    initializeTreeSelector();
 }
 
 // 标签页切换功能
@@ -310,6 +313,61 @@ function animateOnLoad() {
             element.style.transform = 'translateY(0)';
         }, index * 100);
     });
+}
+
+// 树状选择器功能
+function initializeTreeSelector() {
+    // 为树状项目添加点击事件
+    document.querySelectorAll('.tree-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const children = this.nextElementSibling;
+            if (children && children.classList.contains('tree-children')) {
+                children.classList.toggle('open');
+                
+                // 更新图标
+                const icon = this.querySelector('i');
+                if (children.classList.contains('open')) {
+                    icon.className = 'fas fa-chevron-down';
+                } else {
+                    icon.className = 'fas fa-chevron-right';
+                }
+            }
+        });
+    });
+
+    // 为叶子节点添加选择事件
+    document.querySelectorAll('.tree-leaf input[type="radio"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            const selectedInfo = {
+                version: this.value,
+                key: this.dataset.key,
+                name: this.parentElement.querySelector('span').textContent
+            };
+            
+            // 更新选择状态
+            document.querySelectorAll('.tree-leaf').forEach(leaf => {
+                leaf.classList.remove('active');
+            });
+            this.parentElement.classList.add('active');
+            
+            // 自动填充密钥
+            if (this.dataset.key) {
+                document.getElementById('customKey').value = this.dataset.key;
+            }
+            
+            // 存储选择信息
+            window.selectedSystemInfo = selectedInfo;
+        });
+    });
+}
+
+// 获取选择的系统版本
+function getSelectedSystemVersion() {
+    const selectedRadio = document.querySelector('.tree-leaf input[type="radio"]:checked');
+    if (selectedRadio) {
+        return selectedRadio.value;
+    }
+    return null;
 }
 
 // 工具函数

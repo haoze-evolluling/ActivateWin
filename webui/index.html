@@ -127,16 +127,292 @@
                 <div class="activation-form">
                     <div class="form-group">
                         <label>选择Windows版本</label>
-                        <select class="glass-select" id="windows-version">
-                            <option value="win10">Windows 10</option>
-                            <option value="win11">Windows 11</option>
-                            <option value="server2019">Windows Server 2019</option>
-                            <option value="server2022">Windows Server 2022</option>
-                        </select>
+                        <div class="tree-selector">
+                            <!-- Windows 11 系列 -->
+                            <div class="tree-level-1">
+                                <div class="tree-item" onclick="toggleTreeItem(this)">
+                                    <i class="fas fa-folder"></i>
+                                    <span>Windows 11 系列</span>
+                                </div>
+                                <div class="tree-children">
+                                    <!-- Windows 11 专业版 -->
+                                    <div class="tree-level-2">
+                                        <div class="tree-item" onclick="toggleTreeItem(this)">
+                                            <i class="fas fa-folder-open"></i>
+                                            <span>专业版</span>
+                                        </div>
+                                        <div class="tree-children">
+                                            <div class="tree-level-3">
+                                                <label class="tree-leaf">
+                                                    <input type="radio" name="windows-version" value="win11_pro" data-key="W269N-WFGWX-YVC9B-4J6C9-T83GX">
+                                                    <span>Windows 11 专业版</span>
+                                                    <small class="key-display">W269N-WFGWX-YVC9B-4J6C9-T83GX</small>
+                                                </label>
+                                                <label class="tree-leaf">
+                                                    <input type="radio" name="windows-version" value="win11_pro_workstation" data-key="NRG8B-VKK3Q-CXVCJ-9G2XF-6Q84J">
+                                                    <span>Windows 11 专业工作站版</span>
+                                                    <small class="key-display">NRG8B-VKK3Q-CXVCJ-9G2XF-6Q84J</small>
+                                                </label>
+                                                <label class="tree-leaf">
+                                                    <input type="radio" name="windows-version" value="win11_pro_education" data-key="6TP4R-GNPTD-KYYHQ-7B7DP-J447Y">
+                                                    <span>Windows 11 专业教育版</span>
+                                                    <small class="key-display">6TP4R-GNPTD-KYYHQ-7B7DP-J447Y</small>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Windows 11 企业版 -->
+                                    <div class="tree-level-2">
+                                        <div class="tree-item" onclick="toggleTreeItem(this)">
+                                            <i class="fas fa-folder-open"></i>
+                                            <span>企业版</span>
+                                        </div>
+                                        <div class="tree-children">
+                                            <div class="tree-level-3">
+                                                <label class="tree-leaf">
+                                                    <input type="radio" name="windows-version" value="win11_enterprise" data-key="NPPR9-FWDCX-D2C8J-H872K-2YT43">
+                                                    <span>Windows 11 企业版</span>
+                                                    <small class="key-display">NPPR9-FWDCX-D2C8J-H872K-2YT43</small>
+                                                </label>
+                                                <label class="tree-leaf">
+                                                    <input type="radio" name="windows-version" value="win11_enterprise_g" data-key="YYVX9-NTFWV-6MDM3-9PT4T-4M68B">
+                                                    <span>Windows 11 企业版 G</span>
+                                                    <small class="key-display">YYVX9-NTFWV-6MDM3-9PT4T-4M68B</small>
+                                                </label>
+                                                <label class="tree-leaf">
+                                                    <input type="radio" name="windows-version" value="win11_enterprise_ltsc" data-key="M7XTQ-FN8P6-TTKYV-9D4CC-J462D">
+                                                    <span>Windows 11 企业版 LTSC</span>
+                                                    <small class="key-display">M7XTQ-FN8P6-TTKYV-9D4CC-J462D</small>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Windows 11 教育版 -->
+                                    <div class="tree-level-2">
+                                        <div class="tree-item" onclick="toggleTreeItem(this)">
+                                            <i class="fas fa-folder-open"></i>
+                                            <span>教育版</span>
+                                        </div>
+                                        <div class="tree-children">
+                                            <div class="tree-level-3">
+                                                <label class="tree-leaf">
+                                                    <input type="radio" name="windows-version" value="win11_education" data-key="NW6C2-QMPVW-D7KKK-3GKT6-VCFB2">
+                                                    <span>Windows 11 教育版</span>
+                                                    <small class="key-display">NW6C2-QMPVW-D7KKK-3GKT6-VCFB2</small>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Windows 10 系列 -->
+                            <div class="tree-level-1">
+                                <div class="tree-item" onclick="toggleTreeItem(this)">
+                                    <i class="fas fa-folder"></i>
+                                    <span>Windows 10 系列</span>
+                                </div>
+                                <div class="tree-children">
+                                    <!-- Windows 10 专业版 -->
+                                    <div class="tree-level-2">
+                                        <div class="tree-item" onclick="toggleTreeItem(this)">
+                                            <i class="fas fa-folder-open"></i>
+                                            <span>专业版</span>
+                                        </div>
+                                        <div class="tree-children">
+                                            <div class="tree-level-3">
+                                                <label class="tree-leaf">
+                                                    <input type="radio" name="windows-version" value="win10_pro" data-key="W269N-WFGWX-YVC9B-4J6C9-T83GX">
+                                                    <span>Windows 10 专业版</span>
+                                                    <small class="key-display">W269N-WFGWX-YVC9B-4J6C9-T83GX</small>
+                                                </label>
+                                                <label class="tree-leaf">
+                                                    <input type="radio" name="windows-version" value="win10_pro_workstation" data-key="NRG8B-VKK3Q-CXVCJ-9G2XF-6Q84J">
+                                                    <span>Windows 10 专业工作站版</span>
+                                                    <small class="key-display">NRG8B-VKK3Q-CXVCJ-9G2XF-6Q84J</small>
+                                                </label>
+                                                <label class="tree-leaf">
+                                                    <input type="radio" name="windows-version" value="win10_pro_education" data-key="6TP4R-GNPTD-KYYHQ-7B7DP-J447Y">
+                                                    <span>Windows 10 专业教育版</span>
+                                                    <small class="key-display">6TP4R-GNPTD-KYYHQ-7B7DP-J447Y</small>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Windows 10 企业版 -->
+                                    <div class="tree-level-2">
+                                        <div class="tree-item" onclick="toggleTreeItem(this)">
+                                            <i class="fas fa-folder-open"></i>
+                                            <span>企业版</span>
+                                        </div>
+                                        <div class="tree-children">
+                                            <div class="tree-level-3">
+                                                <label class="tree-leaf">
+                                                    <input type="radio" name="windows-version" value="win10_enterprise" data-key="NPPR9-FWDCX-D2C8J-H872K-2YT43">
+                                                    <span>Windows 10 企业版</span>
+                                                    <small class="key-display">NPPR9-FWDCX-D2C8J-H872K-2YT43</small>
+                                                </label>
+                                                <label class="tree-leaf">
+                                                    <input type="radio" name="windows-version" value="win10_enterprise_g" data-key="YYVX9-NTFWV-6MDM3-9PT4T-4M68B">
+                                                    <span>Windows 10 企业版 G</span>
+                                                    <small class="key-display">YYVX9-NTFWV-6MDM3-9PT4T-4M68B</small>
+                                                </label>
+                                                <label class="tree-leaf">
+                                                    <input type="radio" name="windows-version" value="win10_enterprise_ltsc_2019" data-key="M7XTQ-FN8P6-TTKYV-9D4CC-J462D">
+                                                    <span>Windows 10 企业版 LTSC 2019</span>
+                                                    <small class="key-display">M7XTQ-FN8P6-TTKYV-9D4CC-J462D</small>
+                                                </label>
+                                                <label class="tree-leaf">
+                                                    <input type="radio" name="windows-version" value="win10_enterprise_ltsb_2016" data-key="DCPHK-NFMTC-H88MJ-PFHPY-QJ4BJ">
+                                                    <span>Windows 10 企业版 LTSB 2016</span>
+                                                    <small class="key-display">DCPHK-NFMTC-H88MJ-PFHPY-QJ4BJ</small>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Windows 10 教育版 -->
+                                    <div class="tree-level-2">
+                                        <div class="tree-item" onclick="toggleTreeItem(this)">
+                                            <i class="fas fa-folder-open"></i>
+                                            <span>教育版</span>
+                                        </div>
+                                        <div class="tree-children">
+                                            <div class="tree-level-3">
+                                                <label class="tree-leaf">
+                                                    <input type="radio" name="windows-version" value="win10_education" data-key="NW6C2-QMPVW-D7KKK-3GKT6-VCFB2">
+                                                    <span>Windows 10 教育版</span>
+                                                    <small class="key-display">NW6C2-QMPVW-D7KKK-3GKT6-VCFB2</small>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Windows 8.1 系列 -->
+                            <div class="tree-level-1">
+                                <div class="tree-item" onclick="toggleTreeItem(this)">
+                                    <i class="fas fa-folder"></i>
+                                    <span>Windows 8.1 系列</span>
+                                </div>
+                                <div class="tree-children">
+                                    <div class="tree-level-2">
+                                        <div class="tree-item" onclick="toggleTreeItem(this)">
+                                            <i class="fas fa-folder-open"></i>
+                                            <span>专业版</span>
+                                        </div>
+                                        <div class="tree-children">
+                                            <div class="tree-level-3">
+                                                <label class="tree-leaf">
+                                                    <input type="radio" name="windows-version" value="win8_1_pro" data-key="GCRJD-8NW9H-F2CDX-CCM8D-9D6T9">
+                                                    <span>Windows 8.1 专业版</span>
+                                                    <small class="key-display">GCRJD-8NW9H-F2CDX-CCM8D-9D6T9</small>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tree-level-2">
+                                        <div class="tree-item" onclick="toggleTreeItem(this)">
+                                            <i class="fas fa-folder-open"></i>
+                                            <span>企业版</span>
+                                        </div>
+                                        <div class="tree-children">
+                                            <div class="tree-level-3">
+                                                <label class="tree-leaf">
+                                                    <input type="radio" name="windows-version" value="win8_1_enterprise" data-key="MHF9N-XY6XB-WVXMC-BTDCT-MKKG7">
+                                                    <span>Windows 8.1 企业版</span>
+                                                    <small class="key-display">MHF9N-XY6XB-WVXMC-BTDCT-MKKG7</small>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Windows 8 系列 -->
+                            <div class="tree-level-1">
+                                <div class="tree-item" onclick="toggleTreeItem(this)">
+                                    <i class="fas fa-folder"></i>
+                                    <span>Windows 8 系列</span>
+                                </div>
+                                <div class="tree-children">
+                                    <div class="tree-level-2">
+                                        <div class="tree-item" onclick="toggleTreeItem(this)">
+                                            <i class="fas fa-folder-open"></i>
+                                            <span>专业版</span>
+                                        </div>
+                                        <div class="tree-children">
+                                            <div class="tree-level-3">
+                                                <label class="tree-leaf">
+                                                    <input type="radio" name="windows-version" value="win8_pro" data-key="NG4HW-VH26C-733KW-K6F98-J8CK4">
+                                                    <span>Windows 8 专业版</span>
+                                                    <small class="key-display">NG4HW-VH26C-733KW-K6F98-J8CK4</small>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tree-level-2">
+                                        <div class="tree-item" onclick="toggleTreeItem(this)">
+                                            <i class="fas fa-folder-open"></i>
+                                            <span>企业版</span>
+                                        </div>
+                                        <div class="tree-children">
+                                            <div class="tree-level-3">
+                                                <label class="tree-leaf">
+                                                    <input type="radio" name="windows-version" value="win8_enterprise" data-key="32JNW-9KQ84-P47T8-D8GGY-CWCK7">
+                                                    <span>Windows 8 企业版</span>
+                                                    <small class="key-display">32JNW-9KQ84-P47T8-D8GGY-CWCK7</small>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Windows 7 系列 -->
+                            <div class="tree-level-1">
+                                <div class="tree-item" onclick="toggleTreeItem(this)">
+                                    <i class="fas fa-folder"></i>
+                                    <span>Windows 7 系列</span>
+                                </div>
+                                <div class="tree-children">
+                                    <div class="tree-level-2">
+                                        <div class="tree-item" onclick="toggleTreeItem(this)">
+                                            <i class="fas fa-folder-open"></i>
+                                            <span>专业版</span>
+                                        </div>
+                                        <div class="tree-children">
+                                            <div class="tree-level-3">
+                                                <label class="tree-leaf">
+                                                    <input type="radio" name="windows-version" value="win7_pro" data-key="FJ82H-XT6CR-J8D7P-XQJJ2-GPDD4">
+                                                    <span>Windows 7 专业版</span>
+                                                    <small class="key-display">FJ82H-XT6CR-J8D7P-XQJJ2-GPDD4</small>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tree-level-2">
+                                        <div class="tree-item" onclick="toggleTreeItem(this)">
+                                            <i class="fas fa-folder-open"></i>
+                                            <span>企业版</span>
+                                        </div>
+                                        <div class="tree-children">
+                                            <div class="tree-level-3">
+                                                <label class="tree-leaf">
+                                                    <input type="radio" name="windows-version" value="win7_enterprise" data-key="33PXH-7Y6KF-2VJC9-XBBR8-HVTHH">
+                                                    <span>Windows 7 企业版</span>
+                                                    <small class="key-display">33PXH-7Y6KF-2VJC9-XBBR8-HVTHH</small>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>产品密钥 (可选)</label>
-                        <input type="text" class="glass-input" id="product-key" placeholder="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX">
+                        <input type="text" class="glass-input" id="product-key" placeholder="系统将自动填充对应版本的GVLK密钥">
                     </div>
                 </div>
                 <div class="progress-section" id="progress-section" hidden>
