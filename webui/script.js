@@ -176,7 +176,6 @@ function loadSettings() {
     
     // 应用设置
     document.getElementById('theme-select').value = settings.theme || 'auto';
-    document.getElementById('animations-toggle').checked = settings.animations !== false;
     document.getElementById('kms-server').value = settings.kmsServer || '';
     document.getElementById('kms-port').value = settings.kmsPort || '1688';
     
@@ -187,7 +186,6 @@ function loadSettings() {
 function saveSettings() {
     const settings = {
         theme: document.getElementById('theme-select').value,
-        animations: document.getElementById('animations-toggle').checked,
         kmsServer: document.getElementById('kms-server').value,
         kmsPort: document.getElementById('kms-port').value
     };
@@ -199,10 +197,8 @@ function saveSettings() {
 
 function setupThemeToggle() {
     const themeSelect = document.getElementById('theme-select');
-    const animationsToggle = document.getElementById('animations-toggle');
     
     themeSelect.addEventListener('change', saveSettings);
-    animationsToggle.addEventListener('change', saveSettings);
     
     // KMS设置自动保存
     document.getElementById('kms-server').addEventListener('blur', saveSettings);
