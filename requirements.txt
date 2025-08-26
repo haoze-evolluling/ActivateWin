@@ -2,3 +2,4 @@ ttkthemes
 pywin32
 Pillow
 pyinstaller
+nicegui
