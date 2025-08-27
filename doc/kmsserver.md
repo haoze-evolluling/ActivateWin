@@ -1,9 +1,0 @@
-kms.bige0.com
-kms.03k.org
-kms.wxlost.com
-kms.moeyuuko.top
-kms.loli.best
-kms.loli.beer
-kms.cgtsoft.com
-kms.sixyin.com
-kms.litbear.cn
