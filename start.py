@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 ActivateWin 统一启动器
-同时启动前端和后端服务
+同时启动前端和后端服务（管理员权限）
 """
 
 import os
@@ -77,21 +77,40 @@ class ServiceManager:
             port += 1
         return port
     
-    def install_dependencies(self):
-        """安装Python依赖"""
-        requirements_file = self.backend_dir / "requirements.txt"
-        if requirements_file.exists():
-            print(f"{Colors.YELLOW}[INFO] 检查并安装Python依赖...{Colors.RESET}")
-            try:
-                subprocess.run([
-                    sys.executable, "-m", "pip", "install", "-r", str(requirements_file)
-                ], check=True, capture_output=True)
-                print(f"{Colors.GREEN}[✓] 依赖安装完成{Colors.RESET}")
-                return True
-            except subprocess.CalledProcessError as e:
-                print(f"{Colors.RED}[✗] 依赖安装失败: {e}{Colors.RESET}")
+    def restart_as_admin(self):
+        """以管理员权限重新启动"""
+        try:
+            import ctypes
+            print(f"{Colors.YELLOW}[ADMIN] 请求管理员权限...{Colors.RESET}")
+            
+            # 获取当前可执行文件路径
+            if getattr(sys, 'frozen', False):
+                # 如果是打包的可执行文件
+                script_path = sys.executable
+            else:
+                # 如果是Python脚本
+                script_path = os.path.abspath(__file__)
+            
+            # 使用ShellExecuteW以管理员权限运行
+            ret = ctypes.windll.shell32.ShellExecuteW(
+                None, 
+                "runas", 
+                sys.executable, 
+                f'"{script_path}"', 
+                None, 
+                1
+            )
+            
+            if ret > 32:
+                print(f"{Colors.GREEN}[ADMIN] 已请求管理员权限，正在重新启动...{Colors.RESET}")
+                sys.exit(0)
+            else:
+                print(f"{Colors.RED}[ADMIN] 无法获取管理员权限{Colors.RESET}")
                 return False
-        return True
+                
+        except Exception as e:
+            print(f"{Colors.RED}[ADMIN] 获取管理员权限失败: {e}{Colors.RESET}")
+            return False
     
     def start_backend(self, port=None):
         """启动后端服务"""
@@ -218,11 +237,14 @@ class ServiceManager:
         try:
             self.print_banner()
             
-            # 检查管理员权限
+            # 检查管理员权限，如果不是管理员则请求提升权限
             is_admin = self.check_admin()
             if not is_admin:
-                print(f"{Colors.YELLOW}[WARNING] 未以管理员权限运行，某些功能可能受限{Colors.RESET}")
-                print(f"{Colors.YELLOW}建议右键以管理员身份运行{Colors.RESET}\n")
+                print(f"{Colors.YELLOW}[WARNING] 需要管理员权限运行{Colors.RESET}")
+                self.restart_as_admin()
+                return  # 退出当前进程
+            else:
+                print(f"{Colors.GREEN}[✓] 已以管理员权限运行{Colors.RESET}")
             
             # 检查端口
             backend_port = 5000 if self.check_port_available(5000) else self.find_free_port(5000)
@@ -231,24 +253,20 @@ class ServiceManager:
             print(f"{Colors.WHITE}[CONFIG] 端口配置:{Colors.RESET}")
             print(f"  后端端口: {Colors.CYAN}{backend_port}{Colors.RESET}")
             print(f"  前端端口: {Colors.CYAN}{frontend_port}{Colors.RESET}")
-            print(f"  管理员权限: {Colors.GREEN if is_admin else Colors.RED}{'是' if is_admin else '否'}{Colors.RESET}\n")
-            
-            # 安装依赖
-            if not self.install_dependencies():
-                return
+            print(f"  管理员权限: {Colors.GREEN}是{Colors.RESET}")
             
             # 启动服务
-            print(f"{Colors.BOLD}[STARTUP] 启动服务...{Colors.RESET}\n")
+            print(f"{Colors.BOLD}[STARTUP] 启动服务...{Colors.RESET}")
             
             backend_success = self.start_backend(backend_port)
             frontend_success = self.start_frontend(frontend_port)
             
             if backend_success and frontend_success:
-                print(f"\n{Colors.GREEN}{Colors.BOLD}[SUCCESS] 所有服务启动成功！{Colors.RESET}\n")
+                print(f"\n{Colors.GREEN}{Colors.BOLD}[SUCCESS] 所有服务启动成功！{Colors.RESET}")
                 
                 url = f"http://localhost:{frontend_port}"
                 print(f"{Colors.WHITE}[ACCESS] 访问地址: {Colors.CYAN}{url}{Colors.RESET}")
-                print(f"{Colors.WHITE}[API]    API地址: {Colors.CYAN}http://localhost:{backend_port}{Colors.RESET}\n")
+                print(f"{Colors.WHITE}[API]    API地址: {Colors.CYAN}http://localhost:{backend_port}{Colors.RESET}")
                 
                 # 延迟打开浏览器
                 threading.Timer(2.0, self.open_browser, args=[url]).start()
